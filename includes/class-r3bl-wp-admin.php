@@ -28,7 +28,6 @@
  * @author     R3BL Creative - James Cook <jcook@r3blcreative.com>
  */
 class R3bl_Wp_Admin {
-
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
@@ -67,7 +66,7 @@ class R3bl_Wp_Admin {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'R3BL_WP_ADMIN_VERSION' ) ) {
+		if (defined('R3BL_WP_ADMIN_VERSION')) {
 			$this->version = R3BL_WP_ADMIN_VERSION;
 		} else {
 			$this->version = '1.0.0';
@@ -78,7 +77,6 @@ class R3bl_Wp_Admin {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -103,27 +101,26 @@ class R3bl_Wp_Admin {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-r3bl-wp-admin-loader.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-r3bl-wp-admin-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-r3bl-wp-admin-i18n.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-r3bl-wp-admin-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-r3bl-wp-admin-admin.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-r3bl-wp-admin-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-r3bl-wp-admin-public.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-r3bl-wp-admin-public.php';
 
 		$this->loader = new R3bl_Wp_Admin_Loader();
-
 	}
 
 	/**
@@ -139,8 +136,7 @@ class R3bl_Wp_Admin {
 
 		$plugin_i18n = new R3bl_Wp_Admin_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 	}
 
 	/**
@@ -152,11 +148,12 @@ class R3bl_Wp_Admin {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new R3bl_Wp_Admin_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new R3bl_Wp_Admin_Admin($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+		$this->loader->add_action('admin_menu', $plugin_admin, 'register_admin_pages');
+		$this->loader->add_filter('admin_body_class', $plugin_admin, 'admin_body_class');
 	}
 
 	/**
@@ -168,11 +165,10 @@ class R3bl_Wp_Admin {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new R3bl_Wp_Admin_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new R3bl_Wp_Admin_Public($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 	}
 
 	/**
@@ -214,5 +210,4 @@ class R3bl_Wp_Admin {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

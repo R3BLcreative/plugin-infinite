@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       R3BL WP Admin
  * Plugin URI:        https://r3blcreative.com
- * Description:       A plugin boilerplate for creating a custom backend admin portal. Built on React, MUI, and TailwindCSS.
+ * Description:       A plugin boilerplate for creating a custom backend admin portal.
  * Version:           1.0.0
  * Author:            R3BL Creative - James Cook
  * Author URI:        https://r3blcreative.com/
@@ -26,7 +26,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if (!defined('WPINC')) {
 	die;
 }
 
@@ -35,14 +35,14 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'R3BL_WP_ADMIN_VERSION', '1.0.0' );
+define('R3BL_WP_ADMIN_VERSION', '1.0.0');
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-r3bl-wp-admin-activator.php
  */
 function activate_r3bl_wp_admin() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-r3bl-wp-admin-activator.php';
+	require_once plugin_dir_path(__FILE__) . 'includes/class-r3bl-wp-admin-activator.php';
 	R3bl_Wp_Admin_Activator::activate();
 }
 
@@ -51,18 +51,18 @@ function activate_r3bl_wp_admin() {
  * This action is documented in includes/class-r3bl-wp-admin-deactivator.php
  */
 function deactivate_r3bl_wp_admin() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-r3bl-wp-admin-deactivator.php';
+	require_once plugin_dir_path(__FILE__) . 'includes/class-r3bl-wp-admin-deactivator.php';
 	R3bl_Wp_Admin_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_r3bl_wp_admin' );
-register_deactivation_hook( __FILE__, 'deactivate_r3bl_wp_admin' );
+register_activation_hook(__FILE__, 'activate_r3bl_wp_admin');
+register_deactivation_hook(__FILE__, 'deactivate_r3bl_wp_admin');
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-r3bl-wp-admin.php';
+require plugin_dir_path(__FILE__) . 'includes/class-r3bl-wp-admin.php';
 
 /**
  * Begins execution of the plugin.
@@ -77,6 +77,5 @@ function run_r3bl_wp_admin() {
 
 	$plugin = new R3bl_Wp_Admin();
 	$plugin->run();
-
 }
 run_r3bl_wp_admin();

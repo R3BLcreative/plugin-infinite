@@ -1,0 +1,14 @@
+[
+	{
+		"table_name": "alloy_customers",
+		"table_schema": "customers.sql"
+	},
+	{
+		"table_name": "alloy_estimates",
+		"table_schema": "estimates.sql"
+	},
+	{
+		"table_name": "alloy_estimate_items",
+		"table_schema": "estimate_items.sql"
+	}
+]

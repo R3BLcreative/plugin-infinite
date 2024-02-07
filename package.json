@@ -1,0 +1,35 @@
+{
+	"name": "r3bl-wp-admin",
+	"version": "1.0.0",
+	"description": "",
+	"devDependencies": {
+		"@tailwindcss/forms": "^0.5.7",
+		"autoprefixer": "^10.4.17",
+		"clean-css": "^5.3.3",
+		"npm-run-all": "^4.1.5",
+		"postcss": "^8.4.33",
+		"postcss-import": "^16.0.0",
+		"tailwindcss": "^3.4.1",
+		"uglify-js": "^3.17.4",
+		"uglifyjs-folder": "^3.3.0",
+		"watch": "^0.13.0"
+	},
+	"scripts": {
+		"build": "npm-run-all --sequential jsbuildf twbuildf jsbuildb twbuildb",
+		"buildf": "npm-run-all --sequential jsbuildf twbuildf",
+		"devf": "npm-run-all --parallel jsdevf twdevf",
+		"jsbuildf": "uglifyjs-folder ./public/src/js/ -o ./public/js/ -e -x .js",
+		"jsdevf": "watch 'npm run jsbuildf' ./public/src/js/",
+		"twbuildf": "tailwindcss -i ./public/src/css/index.css -o ./public/css/r3bl-wp-admin-public.css --postcss --minify",
+		"twdevf": "tailwindcss -i ./public/src/css/index.css -o ./public/css/r3bl-wp-admin-public.css --watch --postcss",
+		"buildb": "npm-run-all --sequential jsbuildb twbuildb",
+		"devb": "npm-run-all --parallel jsdevb twdevb",
+		"jsbuildb": "uglifyjs-folder ./admin/src/js/ -o ./admin/js/ -e -x .js",
+		"jsdevb": "watch 'npm run jsbuildb' ./admin/src/js/",
+		"twbuildb": "tailwindcss -i ./admin/src/css/index.css -o ./admin/css/r3bl-wp-admin-admin.css --postcss --minify",
+		"twdevb": "tailwindcss -i ./admin/src/css/index.css -o ./admin/css/r3bl-wp-admin-admin.css --watch --postcss"
+	},
+	"dependencies": {
+		"postcss-nested": "^6.0.1"
+	}
+}

@@ -1,0 +1,15 @@
+[
+	{
+		"slug": "alloy-admin",
+		"label": "Alloy - Admin",
+		"caps": [{ "read": true }, { "manage_alloy": true }],
+		"isAdmin": true,
+		"admin_caps": ["manage_alloy"]
+	},
+	{
+		"slug": "alloy-customer",
+		"label": "Alloy - Customer",
+		"caps": [{ "read": false }],
+		"isAdmin": false
+	}
+]

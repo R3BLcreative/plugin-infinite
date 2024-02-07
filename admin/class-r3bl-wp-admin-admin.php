@@ -41,17 +41,30 @@ class R3bl_Wp_Admin_Admin {
 	private $version;
 
 	/**
+	 * The config info for building out the WordPress admin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      obj    $config    The JSON config data for the plugin.
+	 */
+	private $config = false;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		$config_path = plugin_dir_path(__FILE__) . '/../config/admin.json';
+		if (file_exists($config_path)) {
+			$this->config = json_decode(file_get_contents($config_path));
+		}
 	}
 
 	/**
@@ -73,8 +86,7 @@ class R3bl_Wp_Admin_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/r3bl-wp-admin-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/r3bl-wp-admin-admin.css', array(), filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/css/r3bl-wp-admin-admin.css'), 'all');
 	}
 
 	/**
@@ -96,8 +108,99 @@ class R3bl_Wp_Admin_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/r3bl-wp-admin-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/r3bl-wp-admin-admin.js', array(), filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/js/r3bl-wp-admin-admin.js'), false);
 	}
 
+	/**
+	 * Add CSS identifier to admin body class
+	 *
+	 * @since    1.0.0
+	 */
+	public function admin_body_class($classes) {
+		if ($this->config) {
+			$current = (array_key_exists('page', $_GET)) ? $_GET['page'] : false;
+
+			if ($this->get_screen($current)) {
+				$classes .= ' r3bl-wp-admin';
+			}
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Returns all screens
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_screens() {
+		if ($this->config) {
+			return $this->config->submenus;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns a single screen
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_screen($slug) {
+		if ($this->config && $slug) {
+			$screens = $this->config->submenus;
+
+			foreach ($screens as $screen) {
+				if ($screen->slug == $slug) return $screen;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Register the Admin menus for the admin area.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_admin_pages() {
+		$icon = 'data:image/svg+xml;base64,' . $this->get_menu_icon_svg();
+
+		// Add main menu page
+		if ($this->config) {
+			$menu = $this->config->menu;
+			add_menu_page($menu->page_title, $menu->menu_title, $menu->caps, $menu->slug, [$this, $menu->cb], $icon, $menu->order);
+
+			// Add submenu pages
+			foreach ($this->get_screens() as $screen) {
+				add_submenu_page($screen->parent, $screen->page_title, $screen->menu_title, $screen->caps, $screen->slug, [$this, $screen->cb], $screen->order);
+			}
+		}
+	}
+
+	/**
+	 * Returns the menu icon SVG code
+	 *
+	 * @since    1.0.0
+	 */
+	public function get_menu_icon_svg() {
+		return base64_encode(file_get_contents(plugin_dir_path(__FILE__) . '/images/menu_icon.svg'));
+	}
+
+	/**
+	 * Display the settings page content for the page we have created.
+	 *
+	 * @since    1.0.0
+	 */
+	public function display_page() {
+		$current = $_GET['page'];
+		$screen = $this->get_screen($current);
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/header.php';
+?>
+		<main id="content-wrap" class="tw-text-primary">
+			<?php require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/content_' . $current . '.php'; ?>
+		</main>
+<?php
+	}
 }
