@@ -198,7 +198,7 @@ class Infinite_Admin {
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_header.php';
 ?>
-		<main id="content-wrap" class="text-body text-base py-5 px-3 mr-5">
+		<main id="content-wrap" class="text-body !font-body text-base py-5 px-3 mr-5">
 			<?php require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/screen_' . $current . '.php'; ?>
 		</main>
 <?php

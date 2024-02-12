@@ -9,8 +9,8 @@ module.exports = {
 			desktop: '1281px',
 		},
 		fontFamily: {
-			display: ['Quicksand', 'sans-serif'],
-			body: ['Lexend Deca', 'sans-serif'],
+			display: ['Raleway', 'sans-serif'],
+			body: ['Roboto', 'sans-serif'],
 		},
 		extend: {
 			colors: {

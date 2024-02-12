@@ -12,4 +12,30 @@
  * @subpackage Infinite/admin/partials
  */
 
-echo $screen->slug;
+$cols = [
+	[
+		'slug'		=> 'name',
+		'label'		=> 'Name'
+	],
+	[
+		'slug'		=> 'test',
+		'label'		=> 'Testing'
+	]
+];
+
+$rows = [
+	[
+		'name'	=> 'James Cook',
+		'test'	=> 'Some data',
+	],
+	[
+		'name'	=> 'John Doe',
+		'test'	=> 'Other data',
+	],
+	[
+		'name'	=> 'Jane Doe',
+		'test'	=> 'More data',
+	],
+];
+
+require_once plugin_dir_path(dirname(__FILE__)) . 'partials/admin_table.php';

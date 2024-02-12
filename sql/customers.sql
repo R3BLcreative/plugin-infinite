@@ -11,7 +11,6 @@ CREATE TABLE
 		city varchar(255),
 		state varchar(255),
 		postal_code varchar(20),
-		referral_code varchar(255),
 		source varchar(255),
 		updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
