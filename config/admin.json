@@ -1,42 +1,32 @@
 {
 	"menu": {
-		"page_title": "Alloy - Dashboard",
-		"menu_title": "Alloy Admin",
-		"caps": "manage_alloy",
-		"slug": "alloy-dashboard",
+		"page_title": "Infinite - Dashboard",
+		"menu_title": "Infinite Admin",
+		"caps": "manage_infinite",
+		"slug": "infinite-dashboard",
 		"cb": "display_page",
 		"order": 3
 	},
 	"submenus": [
 		{
-			"parent": "alloy-dashboard",
+			"parent": "infinite-dashboard",
 			"page_title": "Dashboard",
 			"menu_title": "Dashboard",
-			"caps": "manage_alloy",
-			"slug": "alloy-dashboard",
+			"caps": "manage_infinite",
+			"slug": "infinite-dashboard",
 			"cb": "display_page",
 			"order": 1,
 			"description": "A high level overview of what's been happening over the last few weeks."
 		},
 		{
-			"parent": "alloy-dashboard",
+			"parent": "infinite-dashboard",
 			"page_title": "Customers",
 			"menu_title": "Customers",
-			"caps": "manage_alloy",
-			"slug": "alloy-customers",
+			"caps": "manage_infinite",
+			"slug": "infinite-customers",
 			"cb": "display_page",
 			"order": 1,
-			"description": "Manage customer information here."
-		},
-		{
-			"parent": "alloy-dashboard",
-			"page_title": "Estimates",
-			"menu_title": "Estimates",
-			"caps": "manage_alloy",
-			"slug": "alloy-estimates",
-			"cb": "display_page",
-			"order": 1,
-			"description": "Manage current and past estimates here."
+			"description": "Customer management"
 		}
 	]
 }

@@ -1,5 +1,5 @@
 {
-	"name": "r3bl-wp-admin",
+	"name": "infinite",
 	"version": "1.0.0",
 	"description": "",
 	"devDependencies": {
@@ -20,14 +20,14 @@
 		"devf": "npm-run-all --parallel jsdevf twdevf",
 		"jsbuildf": "uglifyjs-folder ./public/src/js/ -o ./public/js/ -e -x .js",
 		"jsdevf": "watch 'npm run jsbuildf' ./public/src/js/",
-		"twbuildf": "tailwindcss -i ./public/src/css/index.css -o ./public/css/r3bl-wp-admin-public.css --postcss --minify",
-		"twdevf": "tailwindcss -i ./public/src/css/index.css -o ./public/css/r3bl-wp-admin-public.css --watch --postcss",
+		"twbuildf": "tailwindcss -i ./public/src/index.css -o ./public/css/infinite-public.css --postcss --minify",
+		"twdevf": "tailwindcss -i ./public/src/index.css -o ./public/css/infinite-public.css --watch --postcss",
 		"buildb": "npm-run-all --sequential jsbuildb twbuildb",
 		"devb": "npm-run-all --parallel jsdevb twdevb",
 		"jsbuildb": "uglifyjs-folder ./admin/src/js/ -o ./admin/js/ -e -x .js",
 		"jsdevb": "watch 'npm run jsbuildb' ./admin/src/js/",
-		"twbuildb": "tailwindcss -i ./admin/src/css/index.css -o ./admin/css/r3bl-wp-admin-admin.css --postcss --minify",
-		"twdevb": "tailwindcss -i ./admin/src/css/index.css -o ./admin/css/r3bl-wp-admin-admin.css --watch --postcss"
+		"twbuildb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --postcss --minify",
+		"twdevb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --watch --postcss"
 	},
 	"dependencies": {
 		"postcss-nested": "^6.0.1"

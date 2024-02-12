@@ -1,0 +1,7 @@
+@config "./../../tw-public.config.js";
+
+.r3bl-wp-admin-public {
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+}
