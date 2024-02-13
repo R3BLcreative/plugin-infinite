@@ -4,10 +4,6 @@ A plugin boilerplate for creating a fully customizable backend admin portal and 
 
 ---
 
-## TASKS:
-
----
-
 ## FEATURES:
 
 ### Extensions
@@ -17,3 +13,12 @@ Extensions allow for advanced customization of the plugin. Extensions are classe
 ### Partials
 
 Partials are components that can be loaded view a view config definition. Allows for custom code implementations and pre-built standard components that can be used by any implementation.
+
+| Syntax    | Description |
+| --------- | ----------- |
+| Header    | Title       |
+| Paragraph | Text        |
+
+---
+
+## TASKS:
