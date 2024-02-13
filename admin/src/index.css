@@ -12,4 +12,12 @@
 	#wpfooter {
 		@apply hidden;
 	}
+
+	#infinite-wrap {
+		@apply pr-5;
+	}
+
+	#infinite-content {
+		@apply text-body !font-body text-base py-5 px-3;
+	}
 }

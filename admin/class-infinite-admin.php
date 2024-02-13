@@ -129,29 +129,60 @@ class Infinite_Admin {
 	}
 
 	/**
-	 * Returns all screens
+	 * Returns all screen configs
 	 *
 	 * @since    1.0.0
 	 */
 	private function get_screens() {
 		if ($this->config) {
-			return $this->config->submenus;
+			return $this->config->screens;
 		}
 
 		return false;
 	}
 
 	/**
-	 * Returns a single screen
+	 * Returns a single screen config
 	 *
 	 * @since    1.0.0
 	 */
 	private function get_screen($slug) {
 		if ($this->config && $slug) {
-			$screens = $this->config->submenus;
+			$screens = $this->config->screens;
 
 			foreach ($screens as $screen) {
 				if ($screen->slug == $slug) return $screen;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the current screen's config
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_current_screen() {
+		$current = $_GET['page'];
+		return $this->get_screen($current);
+	}
+
+	/**
+	 * Returns the current screen's config
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_current_view() {
+		$current_screen = $_GET['page'];
+		$current_view = (isset($_GET['view'])) ? $_GET['view'] : false;
+
+		$screen = $this->get_screen($current_screen);
+		if (property_exists($screen, 'nav_items')) {
+			$views = $screen->nav_items;
+
+			foreach ($views as $view) {
+				if ((!$current_view && $view->main_view) || $view->slug == $current_view) return $view;
 			}
 		}
 
@@ -188,19 +219,75 @@ class Infinite_Admin {
 	}
 
 	/**
-	 * Display the settings page content for the page we have created.
+	 * Display the dashboard page.
 	 *
 	 * @since    1.0.0
 	 */
-	public function display_page() {
-		$current = $_GET['page'];
-		$screen = $this->get_screen($current);
+	public function infinite_dashboard() {
+		$screen = $this->get_current_screen();
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_dashboard.php';
+	}
+
+	/**
+	 * Display all non-dashboard pages.
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_page() {
+		$screen = $this->get_current_screen();
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_page.php';
+	}
+
+	/**
+	 * Display header
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_header() {
+		$screen = $this->get_current_screen();
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_header.php';
-?>
-		<main id="content-wrap" class="text-body !font-body text-base py-5 px-3 mr-5">
-			<?php require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/screen_' . $current . '.php'; ?>
-		</main>
-<?php
+	}
+
+	/**
+	 * Display nav
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_nav() {
+		$screen = $this->get_current_screen();
+		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
+
+		if (property_exists($screen, 'nav_items')) {
+			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_nav.php';
+		}
+	}
+
+	/**
+	 * Display page/view content
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_content() {
+		$view = $this->get_current_view();
+
+		$content = false;
+		if (property_exists($view, 'class')) {
+			$class_name = "$view->class";
+
+			if (class_exists($class_name)) {
+				$CLASS = new $class_name;
+
+				if (method_exists($CLASS, $view->method)) {
+					$content = call_user_func([$CLASS, $view->method]);
+				}
+			}
+		}
+
+		if ($view && file_exists(plugin_dir_path(dirname(__FILE__)) . 'admin/partials/' . $view->partial . '.php')) {
+			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/' . $view->partial . '.php';
+		}
 	}
 }

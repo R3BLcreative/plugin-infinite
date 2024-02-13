@@ -4,17 +4,17 @@
 		"menu_title": "Infinite Admin",
 		"caps": "manage_infinite",
 		"slug": "infinite-dashboard",
-		"cb": "display_page",
+		"cb": "infinite_dashboard",
 		"order": 3
 	},
-	"submenus": [
+	"screens": [
 		{
 			"parent": "infinite-dashboard",
 			"page_title": "Dashboard",
 			"menu_title": "Dashboard",
 			"caps": "manage_infinite",
 			"slug": "infinite-dashboard",
-			"cb": "display_page",
+			"cb": "infinite_dashboard",
 			"order": 1,
 			"description": "A high level overview of what's been happening over the last few weeks."
 		},
@@ -24,9 +24,51 @@
 			"menu_title": "Customers",
 			"caps": "manage_infinite",
 			"slug": "infinite-customers",
-			"cb": "display_page",
+			"cb": "infinite_page",
 			"order": 1,
-			"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula. Quisque ut dolor gravida, placerat libero vel, euismod. Morbi fringilla convallis sapien, id pulvinar odio volutpat."
+			"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula. Quisque ut dolor gravida, placerat libero vel, euismod. Morbi fringilla convallis sapien, id pulvinar odio volutpat.",
+			"nav_items": [
+				{
+					"slug": "nav-1",
+					"menu_title": "Nav 1",
+					"page_title": "Title 1",
+					"main_view": true,
+					"partial": "admin_table",
+					"class": "Infinite_Test_Extension_Class",
+					"method": "get_content",
+					"cols": [
+						{
+							"slug": "name",
+							"label": "Name"
+						},
+						{
+							"slug": "test",
+							"label": "Testing"
+						}
+					]
+				},
+				{
+					"slug": "nav-2",
+					"menu_title": "Nav 2",
+					"page_title": "Title 2",
+					"main_view": false,
+					"partial": ""
+				},
+				{
+					"slug": "nav-3",
+					"menu_title": "Nav 3",
+					"page_title": "Title 3",
+					"main_view": false,
+					"partial": ""
+				},
+				{
+					"slug": "nav-4",
+					"menu_title": "Nav 4",
+					"page_title": "Title 4",
+					"main_view": false,
+					"partial": ""
+				}
+			]
 		}
 	]
 }
