@@ -16,7 +16,7 @@
 			"slug": "infinite-dashboard",
 			"cb": "infinite_dashboard",
 			"order": 1,
-			"description": "A high level overview of what's been happening over the last few weeks."
+			"description": "A high level overview of what's been happening. Customize your dashboard to suite your specific use cases and tasks."
 		},
 		{
 			"parent": "infinite-dashboard",
@@ -26,47 +26,25 @@
 			"slug": "infinite-customers",
 			"cb": "infinite_page",
 			"order": 1,
-			"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula. Quisque ut dolor gravida, placerat libero vel, euismod. Morbi fringilla convallis sapien, id pulvinar odio volutpat.",
+			"description": "Get detailed insights, tracking data, and enable third-party integrations to create an all-in-one single location for your admins to manage customer data and customer related flows.",
 			"nav_items": [
 				{
-					"slug": "nav-1",
-					"menu_title": "Nav 1",
-					"page_title": "Title 1",
+					"slug": "customer-list",
+					"menu_title": "List",
+					"view_title": "Customer List",
 					"main_view": true,
 					"partial": "admin_table",
-					"class": "Infinite_Test_Extension_Class",
-					"method": "get_content",
-					"cols": [
-						{
-							"slug": "name",
-							"label": "Name"
-						},
-						{
-							"slug": "test",
-							"label": "Testing"
-						}
-					]
+					"class": "Infinite_Customers",
+					"method": "get_customers_table"
 				},
 				{
-					"slug": "nav-2",
-					"menu_title": "Nav 2",
-					"page_title": "Title 2",
+					"slug": "customer-reports",
+					"menu_title": "Reports",
+					"view_title": "Customer Reports",
 					"main_view": false,
-					"partial": ""
-				},
-				{
-					"slug": "nav-3",
-					"menu_title": "Nav 3",
-					"page_title": "Title 3",
-					"main_view": false,
-					"partial": ""
-				},
-				{
-					"slug": "nav-4",
-					"menu_title": "Nav 4",
-					"page_title": "Title 4",
-					"main_view": false,
-					"partial": ""
+					"partial": "",
+					"class": "Infinite_Customers",
+					"method": ""
 				}
 			]
 		}

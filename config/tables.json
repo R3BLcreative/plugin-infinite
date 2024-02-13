@@ -1,6 +1,6 @@
 [
 	{
-		"table_name": "alloy_customers",
+		"table_name": "infinite_customers",
 		"table_sql": "customers.sql"
 	}
 ]

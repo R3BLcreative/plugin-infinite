@@ -49,13 +49,13 @@ class Infinite_Gravity_Forms {
 				'user_id'				=> $user_id,
 				'first_name'		=> $entry['1.3'],
 				'last_name'			=> $entry['1.6'],
-				'primary_phone'	=> $entry[4],
+				'full_name'			=> $entry['1.3'] . ' ' . $entry['1.6'],
+				'primary_phone'	=> $entry[4], // TODO: Format phone number
 				'street1'				=> $entry['5.1'],
 				'street2'				=> $entry['5.2'],
 				'city'					=> $entry['5.3'],
 				'state'					=> $entry['5.4'],
 				'postal_code'		=> $entry['5.5'],
-				'referral_code'	=> $entry[7],
 				'source'				=> $source,
 			];
 			$format = [

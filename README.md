@@ -16,8 +16,10 @@ Partials are components that can be loaded view a view config definition. Allows
 
 | Partial | Slug        | Description                            | Required Array Args |
 | ------- | ----------- | -------------------------------------- | ------------------- |
-| Table   | admin_table | Displays array content in a table view | Cols, Rows          |
+| Table   | admin_table | Displays array content in a table view | [Cols, Rows]        |
 
 ---
 
 ## TASKS:
+
+TODO: Add a settings page with initial "General" view and enable adding additional dynamic settings to initial view and dynamic config views
