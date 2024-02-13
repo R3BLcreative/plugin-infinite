@@ -12,14 +12,12 @@
  * @subpackage Infinite/admin/partials
  */
 
-// TODO: Need to add pagination to this - pagination should be a separate partial include/function
-// TODO: Responsive styles
 // TODO: Column class definitions to control width, sorting, etc.
-// TODO: Add actions menu/column
 // TODO: Add clickable row to link to record item view
+// TODO: Responsive styles/layout
 
-$thCss = 'px-3 py-1 text-left font-semibold text-lg tracking-wider text-primary';
-$tdCss = 'px-3 py-5 text-left';
+$thCss = 'px-3 py-1 font-semibold text-lg tracking-wider text-primary';
+$tdCss = 'px-3 py-5';
 ?>
 
 <?php if (!empty($content)) : ?>
@@ -27,22 +25,33 @@ $tdCss = 'px-3 py-5 text-left';
 		<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group">
 			<tr>
 				<?php foreach ($content['cols'] as $col) : ?>
-					<th class="<?php echo $thCss; ?>"><?php echo $col['label']; ?></th>
+					<th class="<?php echo $thCss . ' ' . $col['colCss']; ?>"><?php echo $col['label']; ?></th>
 				<?php endforeach; ?>
+				<th class="<?php echo $thCss; ?>">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php foreach ($content['rows'] as $row) : ?>
-				<tr class="even:bg-secondary-100 even:text-secondary-800">
+				<tr class="even:bg-surface-800 text-body-400 last:border-b last:border-b-secondary-100">
 					<?php foreach ($content['cols'] as $col) : ?>
-						<td class="<?php echo $tdCss; ?>">
+						<td class="<?php echo $tdCss . ' ' . $col['cellCss']; ?>">
 							<?php echo $row[$col['slug']]; ?>
 						</td>
 					<?php endforeach; ?>
+					<td class="<?php echo $tdCss; ?> flex flex-row items-center justify-center gap-4">
+						<span>x</span>
+						<span>x</span>
+						<span>x</span>
+						<span>x</span>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
+	<!-- PAGIANATION -->
+	<?php $this->infinite_pagination($content['total'], $content['pages']); ?>
+
 <?php else : ?>
 	<div class="text-center p-6">
 		<h2 class="text-4xl font-display font-bold italic tracking-widest mb-3 text-primary">Goose egg...</h2>

@@ -14,9 +14,9 @@ Extensions allow for advanced customization of the plugin. Extensions are classe
 
 Partials are components that can be loaded view a view config definition. Allows for custom code implementations and pre-built standard components that can be used by any implementation. Pre-built partials are listed below:
 
-| Partial | Slug        | Description                            | Required Array Args |
-| ------- | ----------- | -------------------------------------- | ------------------- |
-| Table   | admin_table | Displays array content in a table view | [Cols, Rows]        |
+| Partial | Slug        | Description                            | Required Array Args        |
+| ------- | ----------- | -------------------------------------- | -------------------------- |
+| Table   | admin_table | Displays array content in a table view | [Cols, Rows, Total, Pages] |
 
 ---
 

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./admin/**/*.{php,js}'],
+	content: ['./admin/**/*.{php,js}', './extensions/*.php'],
 	theme: {
 		screens: {
 			mobile: '0px',
@@ -62,9 +62,9 @@ module.exports = {
 					300: '#5978AB',
 					400: '#40577D',
 					500: '#28364E',
-					600: '#1F2A3D',
-					700: '#161F2C',
-					800: '#0E131B',
+					600: '#1f2a3d',
+					700: '#161f2c',
+					800: '#111822',
 					900: '#05070A',
 					950: '#010102',
 				},

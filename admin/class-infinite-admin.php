@@ -290,4 +290,19 @@ class Infinite_Admin {
 			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/' . $view->partial . '.php';
 		}
 	}
+
+	/**
+	 * Display pagination
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_pagination($total, $pages) {
+		$screen = $this->get_current_screen();
+		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
+		$pg = (isset($_GET['pg'])) ? intval($_GET['pg']) : 1;
+
+		if (property_exists($screen, 'nav_items')) {
+			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_pagination.php';
+		}
+	}
 }
