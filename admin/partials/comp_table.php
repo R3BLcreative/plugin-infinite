@@ -13,7 +13,10 @@
  */
 
 // TODO: Column class definitions to control width, sorting, etc.
-// TODO: Add clickable row to link to record item view
+// TODO: Add filters UI template
+// TODO: Clickable record to link to expanded view of record.
+// TODO: Add a "create new" button to UI - part of filters
+// TODO: Dynamic "actions" nav
 // TODO: Responsive styles/layout
 
 $thCss = 'px-3 py-1 font-semibold text-lg tracking-wider text-primary';
@@ -21,6 +24,9 @@ $tdCss = 'px-3 py-5';
 ?>
 
 <?php if (!empty($content)) : ?>
+	<!-- FILTERS -->
+	<?php $this->infinite_filters($content); ?>
+
 	<table class="w-full">
 		<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group">
 			<tr>
@@ -32,7 +38,7 @@ $tdCss = 'px-3 py-5';
 		</thead>
 		<tbody>
 			<?php foreach ($content['rows'] as $row) : ?>
-				<tr class="even:bg-surface-800 text-body-400 last:border-b last:border-b-secondary-100">
+				<tr class="even:bg-surface-800 text-body-400 last:border-b last:border-b-secondary-100 hover:bg-surface-600">
 					<?php foreach ($content['cols'] as $col) : ?>
 						<td class="<?php echo $tdCss . ' ' . $col['cellCss']; ?>">
 							<?php echo $row[$col['slug']]; ?>
@@ -49,7 +55,7 @@ $tdCss = 'px-3 py-5';
 		</tbody>
 	</table>
 
-	<!-- PAGIANATION -->
+	<!-- PAGINATION -->
 	<?php $this->infinite_pagination($content['total'], $content['pages']); ?>
 
 <?php else : ?>

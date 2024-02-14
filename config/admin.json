@@ -25,7 +25,7 @@
 			"caps": "manage_infinite",
 			"slug": "infinite-customers",
 			"cb": "infinite_page",
-			"order": 1,
+			"order": 2,
 			"description": "Get detailed insights, tracking data, and enable third-party integrations to create an all-in-one single location for your admins to manage customer data and customer related flows.",
 			"nav_items": [
 				{
@@ -33,9 +33,18 @@
 					"menu_title": "List",
 					"view_title": "Customer List",
 					"main_view": true,
-					"partial": "admin_table",
+					"partial": "comp_table",
 					"class": "Infinite_Customers",
 					"method": "get_customers_table"
+				},
+				{
+					"slug": "customer-add",
+					"menu_title": "Add",
+					"view_title": "Create a Customer",
+					"main_view": false,
+					"partial": "",
+					"class": "Infinite_Customers",
+					"method": ""
 				},
 				{
 					"slug": "customer-reports",
@@ -44,6 +53,27 @@
 					"main_view": false,
 					"partial": "",
 					"class": "Infinite_Customers",
+					"method": ""
+				}
+			]
+		},
+		{
+			"parent": "infinite-dashboard",
+			"page_title": "Settings",
+			"menu_title": "Settings",
+			"caps": "manage_infinite",
+			"slug": "infinite-settings",
+			"cb": "infinite_settings",
+			"order": 99,
+			"description": "Manage the various settings and features of the Infinite plugin.",
+			"nav_items": [
+				{
+					"slug": "settings-general",
+					"menu_title": "General",
+					"view_title": "General Settings",
+					"main_view": true,
+					"partial": "",
+					"class": "",
 					"method": ""
 				}
 			]

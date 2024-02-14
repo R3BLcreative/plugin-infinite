@@ -85,6 +85,11 @@ class Infinite {
 	private function load_dependencies() {
 
 		/**
+		 * Load helper functions
+		 */
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/infinite-helpers.php';
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
@@ -141,6 +146,8 @@ class Infinite {
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 		$this->loader->add_action('admin_menu', $plugin_admin, 'register_admin_pages');
 		$this->loader->add_filter('admin_body_class', $plugin_admin, 'admin_body_class');
+
+		$this->loader->add_action('admin_init', $plugin_admin, 'ajax_db_seeder_hooks');
 	}
 
 	/**

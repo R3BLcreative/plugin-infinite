@@ -42,24 +42,32 @@ class Infinite_Customers {
 				'label'	=> 'Name',
 				'colCss' => 'text-left',
 				'cellCss' => '',
+				'sortable' => true,
+				'initSort' => true,
 			],
 			[
 				'slug'	=> 'primary_phone',
 				'label'	=> 'Phone',
 				'colCss' => 'text-left',
 				'cellCss' => '',
+				'sortable' => false,
+				'initSort' => false,
 			],
 			[
 				'slug'	=> 'city',
 				'label'	=> 'City',
 				'colCss' => 'text-left',
 				'cellCss' => '',
+				'sortable' => true,
+				'initSort' => false,
 			],
 			[
 				'slug'	=> 'state',
 				'label'	=> 'State',
 				'colCss' => 'text-left',
 				'cellCss' => '',
+				'sortable' => true,
+				'initSort' => false,
 			],
 		];
 
@@ -68,9 +76,9 @@ class Infinite_Customers {
 		$table = $wpdb->prefix . $this->table_name;
 
 		// Dynamic query params
-		$orderby = 'last_name'; // TODO: Orderby should be dynamic and controlled by the user
-		$direction = 'ASC'; // TODO: Direction should be dynamic and controlled by the user
-		$limit = 25; // TODO: Limit should be dynamic and controlled by the user
+		$orderby = (isset($_REQUEST['sortby'])) ? $_REQUEST['sortby'] : 'full_name';
+		$direction = (isset($_REQUEST['sortdir'])) ? $_REQUEST['sortdir'] : 'ASC';
+		$limit = (isset($_REQUEST['limit'])) ? $_REQUEST['limit'] : 25;
 		$offset = (isset($_GET['pg'])) ? $limit * (intval($_GET['pg']) - 1) : 0;
 
 		// Count total number of records and figure page count
@@ -81,7 +89,15 @@ class Infinite_Customers {
 		$results = $wpdb->get_results("SELECT * FROM $table ORDER BY $orderby $direction LIMIT $limit OFFSET $offset", ARRAY_A);
 
 		// Set content var
-		if (!empty($results)) $content = ['cols' => $cols, 'rows' => $results, 'total' => $total, 'pages' => $pages];
+		if (!empty($results)) {
+			$content = [
+				'cols' => $cols,
+				'rows' => $results,
+				'total' => $total,
+				'pages' => $pages,
+				'limit' => $limit
+			];
+		}
 
 		return $content;
 	}

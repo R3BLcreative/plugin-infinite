@@ -210,6 +210,75 @@ class Infinite_Admin {
 	}
 
 	/**
+	 * Handles the hooks for Db Seeder AJAX calls
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_db_seeder_hooks() {
+		add_action('wp_ajax_nopriv_infinite_ajax_db_seeder', [$this, 'ajax_db_seeder']);
+		add_action('wp_ajax_infinite_ajax_db_seeder', [$this, 'ajax_db_seeder']);
+	}
+
+	/**
+	 * Create separate public methods for each table you want to seed
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_db_seeder() {
+		// Verify Nonce
+		if (!wp_verify_nonce($_REQUEST['nonce'], 'infinite_seeder_nonce')) {
+			exit('No naughty business please');
+		}
+
+		// Runs seeders
+		$this->seed_customers();
+
+		// Return to sender
+		header("Location: " . $_SERVER["HTTP_REFERER"]);
+
+		// Just in case...
+		die();
+	}
+
+	/**
+	 * Create separate public methods for each table you want to seed
+	 *
+	 * @since    1.0.0
+	 */
+	public function seed_customers() {
+		global $wpdb;
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'vendor/autoload.php';
+
+		$faker = Faker\Factory::create();
+		$customers = [];
+
+		for ($i = 1; $i <= 60; $i++) {
+			$first = $faker->firstName();
+			$last = $faker->lastName();
+			$name = $first . ' ' . $last;
+			$customers[] = [
+				'first_name'			=> $first,
+				'last_name'				=> $last,
+				'full_name'				=> $name,
+				'primary_phone'		=> $faker->phoneNumber(),
+				'street1'					=> $faker->streetAddress(),
+				'street2'					=> $faker->optional(40)->secondaryAddress(),
+				'city'						=> $faker->city(),
+				'state'						=> $faker->state(),
+				'postal_code'			=> $faker->postcode(),
+				'source'					=> $faker->url(),
+			];
+		}
+
+		$table = $wpdb->prefix . 'infinite_customers';
+
+		foreach ($customers as $customer) {
+			$wpdb->insert($table, $customer);
+		}
+	}
+
+	/**
 	 * Returns the menu icon SVG code
 	 *
 	 * @since    1.0.0
@@ -227,6 +296,17 @@ class Infinite_Admin {
 		$screen = $this->get_current_screen();
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_dashboard.php';
+	}
+
+	/**
+	 * Display the settings page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_settings() {
+		$screen = $this->get_current_screen();
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_settings.php';
 	}
 
 	/**
@@ -248,7 +328,7 @@ class Infinite_Admin {
 	public function infinite_header() {
 		$screen = $this->get_current_screen();
 
-		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_header.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/temp_header.php';
 	}
 
 	/**
@@ -261,7 +341,7 @@ class Infinite_Admin {
 		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
 
 		if (property_exists($screen, 'nav_items')) {
-			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_nav.php';
+			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/temp_nav.php';
 		}
 	}
 
@@ -292,7 +372,7 @@ class Infinite_Admin {
 	}
 
 	/**
-	 * Display pagination
+	 * Display pagination bar
 	 *
 	 * @since    1.0.0
 	 */
@@ -301,8 +381,20 @@ class Infinite_Admin {
 		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
 		$pg = (isset($_GET['pg'])) ? intval($_GET['pg']) : 1;
 
-		if (property_exists($screen, 'nav_items')) {
-			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_pagination.php';
+		if ($pages > 1) {
+			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_pagination.php';
 		}
+	}
+
+	/**
+	 * Display filters bar
+	 *
+	 * @since    1.0.0
+	 */
+	public function infinite_filters($data) {
+		$screen = $this->get_current_screen();
+		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_filters.php';
 	}
 }
