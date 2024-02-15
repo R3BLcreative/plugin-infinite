@@ -56,7 +56,7 @@ $tdCss = 'px-3 py-5';
 			else : ?>
 				<tr>
 					<td colspan="100%">
-						<div class="text-center px-6 py-16">
+						<div class="p-6 h-[650px] flex flex-col items-center justify-center">
 							<h2 class="text-4xl font-display font-bold italic tracking-widest mb-3 text-secondary">Goose egg!!!</h2>
 							<p class="font-body text-xl">Bummer... There's no records to show.</p>
 						</div>
