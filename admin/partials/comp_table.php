@@ -22,22 +22,20 @@
 $thCss = 'px-3 py-1 font-semibold text-lg tracking-wider text-primary';
 $tdCss = 'px-3 py-5';
 ?>
+<!-- FILTERS -->
+<?php $this->infinite_filters($content); ?>
 
-<?php if (!empty($content)) : ?>
-	<!-- FILTERS -->
-	<?php $this->infinite_filters($content); ?>
-
-	<table class="w-full">
-		<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group">
-			<tr>
-				<?php foreach ($content['cols'] as $col) : ?>
-					<th class="<?php echo $thCss . ' ' . $col['colCss']; ?>"><?php echo $col['label']; ?></th>
-				<?php endforeach; ?>
-				<th class="<?php echo $thCss; ?>">Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ($content['rows'] as $row) : ?>
+<table class="w-full">
+	<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group">
+		<tr>
+			<?php foreach ($content['cols'] as $col) : ?>
+				<th class="<?php echo $thCss . ' ' . $col['colCss']; ?>"><?php echo $col['label']; ?></th>
+			<?php endforeach; ?>
+			<th class="<?php echo $thCss; ?>">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (!empty($content['rows'])) : foreach ($content['rows'] as $row) : ?>
 				<tr class="even:bg-surface-800 text-body-400 last:border-b last:border-b-secondary-100 hover:bg-surface-600">
 					<?php foreach ($content['cols'] as $col) : ?>
 						<td class="<?php echo $tdCss . ' ' . $col['cellCss']; ?>">
@@ -51,16 +49,19 @@ $tdCss = 'px-3 py-5';
 						<span>x</span>
 					</td>
 				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+			<?php endforeach;
+		else : ?>
+			<tr>
+				<td colspan="100%">
+					<div class="text-center px-6 py-16">
+						<h2 class="text-4xl font-display font-bold italic tracking-widest mb-3 text-secondary">Goose egg...</h2>
+						<p class="font-body text-xl">Either your query has an error or you don't have any records... <em>Bummer!</em></p>
+					</div>
+				</td>
+			</tr>
+		<?php endif; ?>
+	</tbody>
+</table>
 
-	<!-- PAGINATION -->
-	<?php $this->infinite_pagination($content['total'], $content['pages']); ?>
-
-<?php else : ?>
-	<div class="text-center p-6">
-		<h2 class="text-4xl font-display font-bold italic tracking-widest mb-3 text-primary">Goose egg...</h2>
-		<p class="font-body text-xl">Either your query has an error or you don't have any records... <em>Bummer!</em></p>
-	</div>
-<?php endif; ?>
+<!-- PAGINATION -->
+<?php $this->infinite_pagination($content['total'], $content['pages']); ?>

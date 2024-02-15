@@ -13,9 +13,11 @@
  */
 ?>
 
-<div id="infinite-filters" class="py-10 flex flex-row flex-nowrap items-center justify-between gap-10">
+<div id="infinite-filters" class="py-10 flex flex-row flex-nowrap items-start justify-between gap-10">
+
 	<!-- DISPLAY -->
 	<form method="get" class="">
+
 		<?php
 		// Capture existing URL params if any
 		foreach ($_GET as $key => $value) :
@@ -24,13 +26,16 @@
 		?>
 			<input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>">
 		<?php endforeach; ?>
-		<label for="limit" class="sr-only">Display</label>
+
+		<label for="limit" class="sr-only">Rows per page</label>
 		<input id="limit" name="limit" type="number" placeholder="00" tabindex="0" class="w-[75px]" value="<?php echo $data['limit']; ?>">
-		<span class="inline-block pl-2">rows per page</span>
+		<span class="block pt-2 text-xs text-center">rows/pg</span>
+
 	</form>
 
 	<!-- SORTING -->
 	<form method="get" class="flex flex-row items-center justify-center gap-6">
+
 		<?php
 		// Capture existing URL params if any
 		foreach ($_GET as $key => $value) :
@@ -74,18 +79,27 @@
 
 	</form>
 
-	<div class="flex flex-row items-center justify-end gap-4">
-		<form method="get" class="">
-			<?php
-			// Capture existing URL params if any
-			foreach ($_GET as $key => $value) :
-				$key = htmlspecialchars($key);
-				$value = htmlspecialchars($value);
-			?>
-				<input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>">
-			<?php endforeach; ?>
-			<label for="infs" class="sr-only">Search</label>
-			<input id="infs" name="infs" type="text" placeholder="Search..." tabindex="0">
-		</form>
-	</div>
+	<!-- SEARCHING -->
+	<form method="get" class="">
+		<?php
+		// Capture existing URL params if any
+		foreach ($_GET as $key => $value) :
+			$key = htmlspecialchars($key);
+			$value = htmlspecialchars($value);
+		?>
+			<input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>">
+		<?php endforeach; ?>
+
+		<div class="relative">
+			<i class="absolute top-4 left-4 fill-surface-400 w-5 h-5"><?php echo inf_get_icon('search'); ?></i>
+			<label for="s" class="sr-only">Search</label>
+			<input id="s" name="s" type="text" placeholder="Search..." tabindex="0" value="<?php echo $data['s']; ?>" class="!pl-11">
+		</div>
+
+		<span class="pt-2 pl-4 text-sm tracking-wider flex gap-3">
+			<em>Total Records:</em>
+			<strong class="text-secondary"><?php echo $data['total']; ?></strong>
+		</span>
+	</form>
+
 </div>

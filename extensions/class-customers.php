@@ -44,6 +44,7 @@ class Infinite_Customers {
 				'cellCss' => '',
 				'sortable' => true,
 				'initSort' => true,
+				'search' => true,
 			],
 			[
 				'slug'	=> 'primary_phone',
@@ -52,6 +53,7 @@ class Infinite_Customers {
 				'cellCss' => '',
 				'sortable' => false,
 				'initSort' => false,
+				'search' => false,
 			],
 			[
 				'slug'	=> 'city',
@@ -60,6 +62,7 @@ class Infinite_Customers {
 				'cellCss' => '',
 				'sortable' => true,
 				'initSort' => false,
+				'search' => true,
 			],
 			[
 				'slug'	=> 'state',
@@ -68,6 +71,7 @@ class Infinite_Customers {
 				'cellCss' => '',
 				'sortable' => true,
 				'initSort' => false,
+				'search' => true,
 			],
 		];
 
@@ -76,28 +80,51 @@ class Infinite_Customers {
 		$table = $wpdb->prefix . $this->table_name;
 
 		// Dynamic query params
+		$s = (isset($_REQUEST['s'])) ? $_REQUEST['s'] : false;
 		$orderby = (isset($_REQUEST['sortby'])) ? $_REQUEST['sortby'] : 'full_name';
 		$direction = (isset($_REQUEST['sortdir'])) ? $_REQUEST['sortdir'] : 'ASC';
 		$limit = (isset($_REQUEST['limit'])) ? $_REQUEST['limit'] : 25;
 		$offset = (isset($_GET['pg'])) ? $limit * (intval($_GET['pg']) - 1) : 0;
 
+		// Base queries
+		$tq = "SELECT COUNT(*) FROM $table";
+		$rq = "SELECT * FROM $table";
+		$rq2 = " ORDER BY $orderby $direction LIMIT $limit OFFSET $offset";
+
+		// Search queries
+		if ($s) {
+			$pS = addslashes($s);
+			$tq .= " WHERE ";
+			$rq .= " WHERE ";
+
+			foreach ($cols as $col) {
+				$sqa[] = $col['slug'] . " LIKE '%$pS%'";
+			}
+
+			$sq = implode(' OR ', $sqa);
+			$tq .= $sq;
+			$rq .= $sq;
+		}
+
+		// Queries
+		$rq .= $rq2;
+
 		// Count total number of records and figure page count
-		$total = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+		$total = $wpdb->get_var($tq);
 		$pages = ceil($total / $limit);
 
 		// Get actual records
-		$results = $wpdb->get_results("SELECT * FROM $table ORDER BY $orderby $direction LIMIT $limit OFFSET $offset", ARRAY_A);
+		$results = $wpdb->get_results($rq, ARRAY_A);
 
 		// Set content var
-		if (!empty($results)) {
-			$content = [
-				'cols' => $cols,
-				'rows' => $results,
-				'total' => $total,
-				'pages' => $pages,
-				'limit' => $limit
-			];
-		}
+		$content = [
+			'cols' => $cols,
+			'rows' => $results,
+			'total' => $total,
+			'pages' => $pages,
+			'limit' => $limit,
+			's' => $s,
+		];
 
 		return $content;
 	}
