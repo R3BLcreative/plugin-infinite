@@ -51,11 +51,11 @@
 				<option disabled>Sort By</option>
 				<?php
 				foreach ($data['cols'] as $col) :
-					if ($col['sortable']) :
-						$is_selected = inf_is_selected($col['slug'], 'sortby', $col['initSort']);
+					if ($col->sortable) :
+						$is_selected = inf_is_selected($col->slug, 'sortby', $col->initSort);
 				?>
-						<option value="<?php echo $col['slug']; ?>" <?php echo ($is_selected) ? 'selected' : ''; ?>>
-							<?php echo $col['label']; ?>
+						<option value="<?php echo $col->slug; ?>" <?php echo ($is_selected) ? 'selected' : ''; ?>>
+							<?php echo $col->label; ?>
 						</option>
 				<?php
 					endif;

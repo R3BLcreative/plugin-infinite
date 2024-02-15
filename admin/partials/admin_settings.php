@@ -12,8 +12,8 @@
  * @subpackage Infinite/admin/partials
  */
 
-$nonce = wp_create_nonce('infinite_seeder_nonce');
-$link = admin_url('admin-ajax.php?action=infinite_ajax_db_seeder&nonce=' . $nonce);
+$nonce = wp_create_nonce('customers_seeder_nonce');
+$link = admin_url('admin-ajax.php?action=customers_db_seeder&nonce=' . $nonce);
 ?>
 
 <div id="infinite-wrap" class="">

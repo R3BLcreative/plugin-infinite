@@ -12,56 +12,60 @@
  * @subpackage Infinite/admin/partials
  */
 
-// TODO: Column class definitions to control width, sorting, etc.
-// TODO: Add filters UI template
 // TODO: Clickable record to link to expanded view of record.
-// TODO: Add a "create new" button to UI - part of filters
 // TODO: Dynamic "actions" nav
 // TODO: Responsive styles/layout
 
-$thCss = 'px-3 py-1 font-semibold text-lg tracking-wider text-primary';
+$thCss = 'px-3 py-3 font-semibold text-lg tracking-wider text-primary';
 $tdCss = 'px-3 py-5';
 ?>
 <!-- FILTERS -->
 <?php $this->infinite_filters($content); ?>
 
-<table class="w-full">
-	<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group">
-		<tr>
+<table class="w-full rounded-md overflow-hidden">
+	<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group bg-surface-800 shadow-lg">
+		<tr class="">
 			<?php foreach ($content['cols'] as $col) : ?>
-				<th class="<?php echo $thCss . ' ' . $col['colCss']; ?>"><?php echo $col['label']; ?></th>
+				<th class="<?php echo $thCss . ' ' . $col->colCss; ?>"><?php echo $col->label; ?></th>
 			<?php endforeach; ?>
-			<th class="<?php echo $thCss; ?>">Actions</th>
+			<th class="<?php echo $thCss; ?> w-[15%] text-center">Actions</th>
 		</tr>
 	</thead>
-	<tbody>
-		<?php if (!empty($content['rows'])) : foreach ($content['rows'] as $row) : ?>
-				<tr class="even:bg-surface-800 text-body-400 last:border-b last:border-b-secondary-100 hover:bg-surface-600">
-					<?php foreach ($content['cols'] as $col) : ?>
-						<td class="<?php echo $tdCss . ' ' . $col['cellCss']; ?>">
-							<?php echo $row[$col['slug']]; ?>
+</table>
+
+<div class="w-full h-[700px] overflow-y-scroll overflow-x-hidden border-b border-b-secondary-100">
+	<table class="w-full">
+		<tbody class="">
+			<?php if (!empty($content['rows'])) : foreach ($content['rows'] as $row) : ?>
+					<tr onclick="console.log('CLICKED')" class="even:bg-surface-800 text-body-400 hover:bg-surface-600 cursor-pointer">
+						<?php foreach ($content['cols'] as $col) : ?>
+							<td class="<?php echo $tdCss . ' ' . $col->colCss . ' ' . $col->cellCss; ?>">
+								<?php echo $row[$col->slug]; ?>
+							</td>
+						<?php endforeach; ?>
+						<td class="<?php echo $tdCss; ?> w-[15%]">
+							<div class="flex flex-row items-center justify-center gap-4">
+								<span>x</span>
+								<span>x</span>
+								<span>x</span>
+								<span>x</span>
+							</div>
 						</td>
-					<?php endforeach; ?>
-					<td class="<?php echo $tdCss; ?> flex flex-row items-center justify-center gap-4">
-						<span>x</span>
-						<span>x</span>
-						<span>x</span>
-						<span>x</span>
+					</tr>
+				<?php endforeach;
+			else : ?>
+				<tr>
+					<td colspan="100%">
+						<div class="text-center px-6 py-16">
+							<h2 class="text-4xl font-display font-bold italic tracking-widest mb-3 text-secondary">Goose egg!!!</h2>
+							<p class="font-body text-xl">Bummer... There's no records to show.</p>
+						</div>
 					</td>
 				</tr>
-			<?php endforeach;
-		else : ?>
-			<tr>
-				<td colspan="100%">
-					<div class="text-center px-6 py-16">
-						<h2 class="text-4xl font-display font-bold italic tracking-widest mb-3 text-secondary">Goose egg...</h2>
-						<p class="font-body text-xl">Either your query has an error or you don't have any records... <em>Bummer!</em></p>
-					</div>
-				</td>
-			</tr>
-		<?php endif; ?>
-	</tbody>
-</table>
+			<?php endif; ?>
+		</tbody>
+	</table>
+</div>
 
 <!-- PAGINATION -->
 <?php $this->infinite_pagination($content['total'], $content['pages']); ?>

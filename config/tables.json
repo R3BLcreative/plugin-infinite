@@ -1,6 +1,53 @@
 [
 	{
 		"table_name": "infinite_customers",
-		"table_sql": "customers.sql"
+		"table_sql": "customers.sql",
+		"view_cols": [
+			{
+				"slug": "ID",
+				"label": "ID",
+				"colCss": "text-center w-[5%]",
+				"cellCss": "",
+				"sortable": true,
+				"initSort": false,
+				"search": true
+			},
+			{
+				"slug": "full_name",
+				"label": "Name",
+				"colCss": "text-left",
+				"cellCss": "",
+				"sortable": true,
+				"initSort": true,
+				"search": true
+			},
+			{
+				"slug": "primary_phone",
+				"label": "Phone",
+				"colCss": "text-left w-[15%]",
+				"cellCss": "",
+				"sortable": false,
+				"initSort": false,
+				"search": false
+			},
+			{
+				"slug": "city",
+				"label": "City",
+				"colCss": "text-left w-[15%]",
+				"cellCss": "",
+				"sortable": true,
+				"initSort": false,
+				"search": true
+			},
+			{
+				"slug": "state",
+				"label": "State",
+				"colCss": "text-left w-[15%]",
+				"cellCss": "",
+				"sortable": true,
+				"initSort": false,
+				"search": true
+			}
+		]
 	}
 ]

@@ -31,7 +31,7 @@ class Infinite_Deactivator {
 	 */
 	public static function deactivate() {
 		// TODO: Copy this to Uninstall.php and delete this once plugin is deployed
-		$path = plugin_dir_path(__FILE__) . '/../';
+		$path = plugin_dir_path(dirname(__FILE__));
 
 		// Remove custom tables
 		global $wpdb;

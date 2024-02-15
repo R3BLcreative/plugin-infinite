@@ -33,6 +33,7 @@
 					"menu_title": "List",
 					"view_title": "Customer List",
 					"main_view": true,
+					"visible": true,
 					"partial": "comp_table",
 					"class": "Infinite_Customers",
 					"method": "get_customers_table"
@@ -42,6 +43,7 @@
 					"menu_title": "Add",
 					"view_title": "Create a Customer",
 					"main_view": false,
+					"visible": true,
 					"partial": "",
 					"class": "Infinite_Customers",
 					"method": ""
@@ -51,6 +53,17 @@
 					"menu_title": "Reports",
 					"view_title": "Customer Reports",
 					"main_view": false,
+					"visible": true,
+					"partial": "",
+					"class": "Infinite_Customers",
+					"method": ""
+				},
+				{
+					"slug": "customer-details",
+					"menu_title": "Details",
+					"view_title": "Customer Details",
+					"main_view": false,
+					"visible": false,
 					"partial": "",
 					"class": "Infinite_Customers",
 					"method": ""
@@ -72,6 +85,7 @@
 					"menu_title": "General",
 					"view_title": "General Settings",
 					"main_view": true,
+					"visible": true,
 					"partial": "",
 					"class": "",
 					"method": ""

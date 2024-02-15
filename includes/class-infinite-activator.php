@@ -30,7 +30,7 @@ class Infinite_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-		$path = plugin_dir_path(__FILE__) . '/../';
+		$path = plugin_dir_path(dirname(__FILE__));
 
 		// Create custom tables
 		self::custom_tables($path);

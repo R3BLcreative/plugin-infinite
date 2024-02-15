@@ -25,6 +25,46 @@ class Infinite_Customers {
 	private $table_name = 'infinite_customers';
 
 	/**
+	 * The tables config object.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      obj    $config    The tables config object.
+	 */
+	private $config;
+
+	/**
+	 * The init function
+	 * 
+	 * Use this to add custom hooks and filters to WP or to pre-load config files.
+	 * In order for this function to work with WP hooks and filters, a class instance must
+	 * be instantiated at the bottom of this doc.
+	 */
+	public function __construct() {
+		// Custom Defined Hooks & Filters Here - Class must be instantiated
+		add_action('admin_init', [$this, 'ajax_db_seeder_hooks']);
+
+		// Load config files here
+		$this->config = $this->get_config($this->table_name);
+	}
+
+	/**
+	 * Retrieves the tables config file and returns the specific tables config
+	 * 
+	 * @var		string		$table_name		The name of the table to get
+	 */
+	public function get_config($table_name) {
+		$config_path = plugin_dir_path(dirname(__FILE__)) . 'config/tables.json';
+		if (file_exists($config_path)) {
+			$tables = json_decode(file_get_contents($config_path));
+
+			foreach ($tables as $table) {
+				if ($table->table_name == $table_name) return $table;
+			}
+		}
+	}
+
+	/**
 	 * Get customers table content.
 	 *
 	 * @since    1.0.0
@@ -33,47 +73,8 @@ class Infinite_Customers {
 	public function get_customers_table() {
 		global $wpdb;
 
-		$content = false;
-
-		// Define table columns here
-		$cols = [
-			[
-				'slug'	=> 'full_name',
-				'label'	=> 'Name',
-				'colCss' => 'text-left',
-				'cellCss' => '',
-				'sortable' => true,
-				'initSort' => true,
-				'search' => true,
-			],
-			[
-				'slug'	=> 'primary_phone',
-				'label'	=> 'Phone',
-				'colCss' => 'text-left',
-				'cellCss' => '',
-				'sortable' => false,
-				'initSort' => false,
-				'search' => false,
-			],
-			[
-				'slug'	=> 'city',
-				'label'	=> 'City',
-				'colCss' => 'text-left',
-				'cellCss' => '',
-				'sortable' => true,
-				'initSort' => false,
-				'search' => true,
-			],
-			[
-				'slug'	=> 'state',
-				'label'	=> 'State',
-				'colCss' => 'text-left',
-				'cellCss' => '',
-				'sortable' => true,
-				'initSort' => false,
-				'search' => true,
-			],
-		];
+		// Get column definitions here
+		$cols = $this->config->view_cols;
 
 		// Get table rows here
 		$rows = [];
@@ -98,7 +99,7 @@ class Infinite_Customers {
 			$rq .= " WHERE ";
 
 			foreach ($cols as $col) {
-				$sqa[] = $col['slug'] . " LIKE '%$pS%'";
+				if ($col->search) $sqa[] = $col->slug . " LIKE '%$pS%'";
 			}
 
 			$sq = implode(' OR ', $sqa);
@@ -128,4 +129,75 @@ class Infinite_Customers {
 
 		return $content;
 	}
+
+	/**
+	 * Handles the hooks for Db Seeder AJAX calls
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_db_seeder_hooks() {
+		add_action('wp_ajax_nopriv_customers_db_seeder', [$this, 'ajax_db_seeder']);
+		add_action('wp_ajax_customers_db_seeder', [$this, 'ajax_db_seeder']);
+	}
+
+	/**
+	 * Create separate public methods for each table you want to seed
+	 *
+	 * @since    1.0.0
+	 */
+	public function ajax_db_seeder() {
+		// Verify Nonce
+		if (!wp_verify_nonce($_REQUEST['nonce'], 'customers_seeder_nonce')) {
+			exit('No naughty business please');
+		}
+
+		// Runs seeders
+		$this->seed_customers();
+
+		// Return to sender
+		header("Location: " . $_SERVER["HTTP_REFERER"]);
+
+		// Just in case...
+		die();
+	}
+
+	/**
+	 * Create separate public methods for each table you want to seed
+	 *
+	 * @since    1.0.0
+	 */
+	public function seed_customers() {
+		global $wpdb;
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'vendor/autoload.php';
+
+		$faker = Faker\Factory::create();
+		$customers = [];
+
+		for ($i = 1; $i <= 60; $i++) {
+			$first = $faker->firstName();
+			$last = $faker->lastName();
+			$name = $first . ' ' . $last;
+			$customers[] = [
+				'first_name'			=> $first,
+				'last_name'				=> $last,
+				'full_name'				=> $name,
+				'primary_phone'		=> $faker->phoneNumber(),
+				'street1'					=> $faker->streetAddress(),
+				'street2'					=> $faker->optional(40)->secondaryAddress(),
+				'city'						=> $faker->city(),
+				'state'						=> $faker->state(),
+				'postal_code'			=> $faker->postcode(),
+				'source'					=> $faker->url(),
+			];
+		}
+
+		$table = $wpdb->prefix . $this->table_name;
+
+		foreach ($customers as $customer) {
+			$wpdb->insert($table, $customer);
+		}
+	}
 }
+
+$Infinite_Customers = new Infinite_Customers();

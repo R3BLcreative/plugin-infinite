@@ -16,13 +16,5 @@ CREATE TABLE
 		updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		PRIMARY KEY (ID),
-		FOREIGN KEY (user_id) REFERENCES INFINITE_TABLE_PREFIX users (ID) ADD FULLTEXT INDEX `FullText` (
-			first_name ASC,
-			last_name ASC,
-			full_name ASC,
-			city ASC,
-			state ASC,
-			postal_code ASC,
-			source ASC
-		)
+		FOREIGN KEY (user_id) REFERENCES INFINITE_TABLE_PREFIX users (ID)
 	);
