@@ -1,0 +1,37 @@
+[
+	{
+		"view": "settings-general",
+		"slug": "seed-db",
+		"label": "Seed the DB",
+		"description": "Clicking this button will add fake records to the DB.",
+		"type": "button"
+	},
+	{
+		"view": "settings-advanced",
+		"slug": "seed-db-adv",
+		"label": "Seed the DB Advanced",
+		"description": "Clicking this button will add fake records to the Advanced DB.",
+		"type": "button-adv"
+	},
+	{
+		"view": "settings-advanced",
+		"slug": "seed-db-adv",
+		"label": "Seed the DB Advanced",
+		"description": "Clicking this button will add fake records to the Advanced DB.",
+		"type": "button-adv"
+	},
+	{
+		"view": "settings-general",
+		"slug": "test-option",
+		"label": "Test Option",
+		"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula.",
+		"type": "text"
+	},
+	{
+		"view": "settings-general",
+		"slug": "test-option",
+		"label": "Test Option",
+		"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula.",
+		"type": "text"
+	}
+]

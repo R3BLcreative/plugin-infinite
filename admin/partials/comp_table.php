@@ -12,43 +12,62 @@
  * @subpackage Infinite/admin/partials
  */
 
-// TODO: Clickable record to link to expanded view of record.
-// TODO: Dynamic "actions" nav
 // TODO: Responsive styles/layout
 
 $thCss = 'px-3 py-3 font-semibold text-lg tracking-wider text-primary';
 $tdCss = 'px-3 py-5';
 ?>
 <!-- FILTERS -->
-<?php $this->infinite_filters($content); ?>
+<?php $INF->infinite_filters(['limit' => $limit, 'cols' => $cols, 's' => $s, 'total' => $total]); ?>
 
 <table class="w-full rounded-md overflow-hidden">
 	<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group bg-surface-800 shadow-lg">
 		<tr class="">
-			<?php foreach ($content['cols'] as $col) : ?>
-				<th class="<?php echo $thCss . ' ' . $col->colCss; ?>"><?php echo $col->label; ?></th>
+			<?php foreach ($cols as $col) : ?>
+				<th class="<?php echo $thCss . ' ' . $col->colCss; ?>">
+					<?php if ($orderby == $col->slug) : ?>
+						<i class="w-4 inline-block fill-body opacity-50 align-middle"><?php echo inf_get_icon('sort'); ?></i>
+					<?php endif; ?>
+					<?php echo $col->label; ?>
+				</th>
 			<?php endforeach; ?>
 			<th class="<?php echo $thCss; ?> w-[15%] text-center">Actions</th>
 		</tr>
 	</thead>
 </table>
 
+<script>
+	const handleClick = (el) => {
+		const id = el.dataset.record;
+		const action = el.dataset.action;
+
+		// Programmatically click the primary action link
+		const link = document.getElementById(action + '-' + id);
+		link.click();
+	}
+</script>
+
 <div class="w-full h-[700px] overflow-y-scroll overflow-x-hidden border-b border-b-secondary-100">
 	<table class="w-full">
 		<tbody class="">
-			<?php if (!empty($content['rows'])) : foreach ($content['rows'] as $row) : ?>
-					<tr onclick="console.log('CLICKED')" class="even:bg-surface-800 text-body-400 hover:bg-surface-600 cursor-pointer">
-						<?php foreach ($content['cols'] as $col) : ?>
-							<td class="<?php echo $tdCss . ' ' . $col->colCss . ' ' . $col->cellCss; ?>">
+			<?php if (!empty($rows)) : foreach ($rows as $row) : ?>
+					<tr class="even:bg-surface-800 text-body-400 hover:bg-surface-600 cursor-pointer">
+
+						<!-- CONTENT -->
+						<?php foreach ($cols as $col) : ?>
+							<td onclick="handleClick(this);" data-record="<?php echo $row['ID']; ?>" data-action="<?php echo $primary_action; ?>" class="<?php echo $tdCss . ' ' . $col->colCss . ' ' . $col->cellCss; ?>">
 								<?php echo $row[$col->slug]; ?>
 							</td>
 						<?php endforeach; ?>
+
+						<!-- ACTIONS -->
 						<td class="<?php echo $tdCss; ?> w-[15%]">
 							<div class="flex flex-row items-center justify-center gap-4">
-								<span>x</span>
-								<span>x</span>
-								<span>x</span>
-								<span>x</span>
+								<?php foreach ($actions as $action) : ?>
+									<a id="<?php echo $action->slug . '-' . $row['ID']; ?>" href="<?php echo admin_url('admin.php?page=' . $screen->slug . '&view=' . $action->view . '&ID=' . $row['ID']); ?>" class="infinite-button btn-alt btn-icon" aria-label="<?php echo $action->label; ?>">
+										<i class="w-5"><?php echo inf_get_icon($action->icon); ?></i>
+									</a>
+								<?php endforeach; ?>
 							</div>
 						</td>
 					</tr>
@@ -68,4 +87,4 @@ $tdCss = 'px-3 py-5';
 </div>
 
 <!-- PAGINATION -->
-<?php $this->infinite_pagination($content['total'], $content['pages']); ?>
+<?php $INF->infinite_pagination($total, $pages); ?>

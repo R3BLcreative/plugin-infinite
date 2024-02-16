@@ -41,7 +41,7 @@ if ($pages <= 5) {
 				<i class="w-5 block"><?php echo inf_get_icon('chevrons'); ?></i>
 			</a>
 			<a href="<?php echo add_query_arg('pg', $pg - 1, get_the_permalink()); ?>" class="<?php echo ($pg == 1) ? $disabledCss : $inactiveCss; ?>" aria-label="Go to previous page">
-				<i class="w-4 block"><?php echo inf_get_icon('chevron'); ?></i>
+				<i class="w-5 block"><?php echo inf_get_icon('chevron'); ?></i>
 			</a>
 		</div>
 
@@ -57,7 +57,7 @@ if ($pages <= 5) {
 		<!-- SIMPLE NAV - RIGHT -->
 		<div class="w-fit flex flex-row items-center justify-center gap-3 border border-surface-500 bg-surface-800 text-body-50 font-body font-normal shadow-lg rounded-lg overflow-hidden px-6">
 			<a href="<?php echo add_query_arg('pg', $pg + 1, get_the_permalink()); ?>" class="<?php echo ($pg == $pages) ? $disabledCss : $inactiveCss; ?>" aria-label="Go to next page">
-				<i class="w-4 block rotate-180"><?php echo inf_get_icon('chevron'); ?></i>
+				<i class="w-5 block rotate-180"><?php echo inf_get_icon('chevron'); ?></i>
 			</a>
 			<a href="<?php echo add_query_arg('pg', $pages, get_the_permalink()); ?>" class="<?php echo ($pg == $pages) ? $disabledCss : $inactiveCss; ?>" aria-label="Go to last page">
 				<i class="w-5 block rotate-180"><?php echo inf_get_icon('chevrons'); ?></i>

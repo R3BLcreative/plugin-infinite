@@ -34,7 +34,6 @@
 					"view_title": "Customer List",
 					"main_view": true,
 					"visible": true,
-					"partial": "comp_table",
 					"class": "Infinite_Customers",
 					"method": "get_customers_table"
 				},
@@ -44,7 +43,6 @@
 					"view_title": "Create a Customer",
 					"main_view": false,
 					"visible": true,
-					"partial": "",
 					"class": "Infinite_Customers",
 					"method": ""
 				},
@@ -54,7 +52,6 @@
 					"view_title": "Customer Reports",
 					"main_view": false,
 					"visible": true,
-					"partial": "",
 					"class": "Infinite_Customers",
 					"method": ""
 				},
@@ -64,9 +61,8 @@
 					"view_title": "Customer Details",
 					"main_view": false,
 					"visible": false,
-					"partial": "",
 					"class": "Infinite_Customers",
-					"method": ""
+					"method": "get_customer_details"
 				}
 			]
 		},
@@ -86,9 +82,8 @@
 					"view_title": "General Settings",
 					"main_view": true,
 					"visible": true,
-					"partial": "",
-					"class": "",
-					"method": ""
+					"class": "__CLASS__",
+					"method": "get_general_settings"
 				}
 			]
 		}

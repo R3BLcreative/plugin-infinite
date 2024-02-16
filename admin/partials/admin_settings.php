@@ -11,9 +11,6 @@
  * @package    Infinite
  * @subpackage Infinite/admin/partials
  */
-
-$nonce = wp_create_nonce('customers_seeder_nonce');
-$link = admin_url('admin-ajax.php?action=customers_db_seeder&nonce=' . $nonce);
 ?>
 
 <div id="infinite-wrap" class="">
@@ -25,6 +22,14 @@ $link = admin_url('admin-ajax.php?action=customers_db_seeder&nonce=' . $nonce);
 
 	<!-- Infinite Content -->
 	<main id="infinite-content" class="">
-		<a href="<?php echo $link; ?>" data-nonce="<?php echo $nonce; ?>" class="infinite-button btn-primary">Seed the DB</a>
+		<form method="post" class="">
+
+			<?php $this->infinite_content(); ?>
+
+			<button type="submit" class="infinite-button btn-primary">
+				<i><?php echo inf_get_icon('save'); ?></i>
+				<span class="inline-block">Save</span>
+			</button>
+		</form>
 	</main>
 </div>

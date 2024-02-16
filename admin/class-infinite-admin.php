@@ -45,9 +45,18 @@ class Infinite_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      obj    $config    The JSON config data for the plugin.
+	 * @var      obj    $admin_config    The JSON config data for the plugin.
 	 */
-	private $config = false;
+	private $admin_config = false;
+
+	/**
+	 * The config info for building out the settings page.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      obj    $settings_config    The JSON config data for the settings.
+	 */
+	private $settings_config = false;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -61,9 +70,12 @@ class Infinite_Admin {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-		$config_path = plugin_dir_path(__FILE__) . '/../config/admin.json';
-		if (file_exists($config_path)) {
-			$this->config = json_decode(file_get_contents($config_path));
+		$config_path = plugin_dir_path(dirname(__FILE__)) . '/config/';
+		if (file_exists($config_path . 'admin.json')) {
+			$this->admin_config = json_decode(file_get_contents($config_path . 'admin.json'));
+		}
+		if (file_exists($config_path . 'settings.json')) {
+			$this->settings_config = json_decode(file_get_contents($config_path . 'settings.json'));
 		}
 	}
 
@@ -117,7 +129,7 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	public function admin_body_class($classes) {
-		if ($this->config) {
+		if ($this->admin_config) {
 			$current = (array_key_exists('page', $_GET)) ? $_GET['page'] : false;
 
 			if ($this->get_screen($current)) {
@@ -134,8 +146,8 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	private function get_screens() {
-		if ($this->config) {
-			return $this->config->screens;
+		if ($this->admin_config) {
+			return $this->admin_config->screens;
 		}
 
 		return false;
@@ -147,8 +159,8 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	private function get_screen($slug) {
-		if ($this->config && $slug) {
-			$screens = $this->config->screens;
+		if ($this->admin_config && $slug) {
+			$screens = $this->admin_config->screens;
 
 			foreach ($screens as $screen) {
 				if ($screen->slug == $slug) return $screen;
@@ -163,7 +175,7 @@ class Infinite_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	private function get_current_screen() {
+	public function get_current_screen() {
 		$current = $_GET['page'];
 		return $this->get_screen($current);
 	}
@@ -173,7 +185,7 @@ class Infinite_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	private function get_current_view() {
+	public function get_current_view() {
 		$current_screen = $_GET['page'];
 		$current_view = (isset($_GET['view'])) ? $_GET['view'] : false;
 
@@ -198,8 +210,8 @@ class Infinite_Admin {
 		$icon = 'data:image/svg+xml;base64,' . $this->get_menu_icon_svg();
 
 		// Add main menu page
-		if ($this->config) {
-			$menu = $this->config->menu;
+		if ($this->admin_config) {
+			$menu = $this->admin_config->menu;
 			add_menu_page($menu->page_title, $menu->menu_title, $menu->caps, $menu->slug, [$this, $menu->cb], $icon, $menu->order);
 
 			// Add submenu pages
@@ -284,21 +296,20 @@ class Infinite_Admin {
 	public function infinite_content() {
 		$view = $this->get_current_view();
 
-		$content = false;
 		if (property_exists($view, 'class')) {
 			$class_name = "$view->class";
 
-			if (class_exists($class_name)) {
+			if ($class_name == '__CLASS__') {
+				if (method_exists(__CLASS__, $view->method)) {
+					call_user_func([__CLASS__, $view->method], $this);
+				}
+			} elseif (class_exists($class_name)) {
 				$CLASS = new $class_name;
 
 				if (method_exists($CLASS, $view->method)) {
-					$content = call_user_func([$CLASS, $view->method]);
+					call_user_func([$CLASS, $view->method], $this);
 				}
 			}
-		}
-
-		if ($view && file_exists(plugin_dir_path(dirname(__FILE__)) . 'admin/partials/' . $view->partial . '.php')) {
-			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/' . $view->partial . '.php';
 		}
 	}
 
@@ -327,5 +338,37 @@ class Infinite_Admin {
 		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_filters.php';
+	}
+
+	/**
+	 * Get the settings options for the current settings view
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_settings_view_options($view) {
+		foreach ($this->settings_config as $setting) {
+			if ($setting->view == $view) $options[] = $setting;
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get the settings options for the general settings view
+	 *
+	 * @since    1.0.0
+	 */
+	public function get_general_settings() {
+		$options = $this->get_settings_view_options('settings-general');
+
+		print_r($options);
+		$nonce = wp_create_nonce('customers_seeder_nonce');
+		$link = admin_url('admin-ajax.php?action=customers_db_seeder&nonce=' . $nonce);
+?>
+		<a href="<?php echo $link; ?>" data-nonce="<?php echo $nonce; ?>" class="infinite-button btn-primary">Seed the DB</a>
+<?php
+		// TODO: Scope out option types (button, toggle, slider, text, number, select, etc.)
+		// TODO: Option types should be components
+		// TODO: Each page should be wrapped in a form with a submit button for now.
 	}
 }

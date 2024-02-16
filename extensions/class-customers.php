@@ -29,9 +29,9 @@ class Infinite_Customers {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      obj    $config    The tables config object.
+	 * @var      obj    $tables_config    The tables config object.
 	 */
-	private $config;
+	private $tables_config;
 
 	/**
 	 * The init function
@@ -45,7 +45,7 @@ class Infinite_Customers {
 		add_action('admin_init', [$this, 'ajax_db_seeder_hooks']);
 
 		// Load config files here
-		$this->config = $this->get_config($this->table_name);
+		$this->tables_config = $this->get_config($this->table_name);
 	}
 
 	/**
@@ -68,13 +68,14 @@ class Infinite_Customers {
 	 * Get customers table content.
 	 *
 	 * @since    1.0.0
+	 * 
+	 * @var		class		$INF	The class instance of Infinite_Admin or Infinite_Public
 	 */
-
-	public function get_customers_table() {
+	public function get_customers_table($INF) {
 		global $wpdb;
 
 		// Get column definitions here
-		$cols = $this->config->view_cols;
+		$cols = $this->tables_config->view_cols;
 
 		// Get table rows here
 		$rows = [];
@@ -117,17 +118,30 @@ class Infinite_Customers {
 		// Get actual records
 		$results = $wpdb->get_results($rq, ARRAY_A);
 
-		// Set content var
-		$content = [
-			'cols' => $cols,
-			'rows' => $results,
-			'total' => $total,
-			'pages' => $pages,
-			'limit' => $limit,
-			's' => $s,
-		];
+		// Get primary action
+		$primary_action = false;
+		foreach ($this->tables_config->actions as $action) {
+			if ($action->primary) $primary_action = $action->slug;
+		}
 
-		return $content;
+		// Set additional template vars
+		$actions = $this->tables_config->actions;
+		$rows = $results;
+		$screen = $INF->get_current_screen();
+		$view = $INF->get_current_view();
+
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_table.php';
+	}
+
+	/**
+	 * Get a single customers details.
+	 *
+	 * @since    1.0.0
+	 * 
+	 * @var		class		$INF	The class instance of Infinite_Admin or Infinite_Public
+	 */
+	public function get_customer_details($INF) {
+		global $wpdb;
 	}
 
 	/**

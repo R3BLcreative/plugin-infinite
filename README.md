@@ -38,14 +38,14 @@ Partials are a mix of pages, templates, and components that can be loaded via a 
 
 | Type      | Slug            | Description                                                                |
 | --------- | --------------- | -------------------------------------------------------------------------- |
-| Page      | admin_dashboard | Handles the display of the plugin dashboard content                        |
+| Page      | admin_dashboard | Handles the display of the plugin dashboard content page                   |
 | Page      | admin_page      | Handles the display of any custom page defined in the config               |
-| Page      | admin_settings  | Handles the display of the plugin settings content                         |
+| Page      | admin_settings  | Handles the display of the plugin settings content page                    |
 | Template  | temp_header     | Handles the display of the page header content                             |
 | Template  | temp_nav        | Handles the display of the page navigation; if it is defined in the config |
 | Component | comp_pagination | Displays a responsive pagination nav                                       |
 | Component | comp_filters    | Displays filters for sorting, searching, etc...                            |
-| Component | comp_table      | Displays DB table array content in a table view                            |
+| Component | comp_table      | Displays DB table array content in a responsive table view                 |
 
 ## PUBLIC FEATURES
 
@@ -55,5 +55,8 @@ COMING SOON...
 
 ## ROADMAP
 
-- TODO: Enable adding additional dynamic settings to initial view and dynamic config views
+- TODO: Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
+- TODO: Allow for dynamically creating tables, roles, caps, and options while the plugin is active
+- TODO: Create a dynamic form component that populates form fields based on tables config
+- TODO: Better way of calling/handling/including page/template/component files
 - SOMEDAY: Re-develop plugin to be react based instead of PHP - this will allow the admin/public portal to be a single page reactive environment that is much faster and more modular.
