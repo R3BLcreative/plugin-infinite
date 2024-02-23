@@ -39,16 +39,16 @@ define('INFINITE_VERSION', '1.0.0');
 
 $config_path = plugin_dir_path(__FILE__) . '/config/';
 
-// PUBLIC CONFIG
-if (file_exists($config_path . 'public.json')) {
-	$public_config = json_decode(file_get_contents($config_path . 'public.json'));
-	define('INF_PUBLIC', $public_config);
-}
-
 // ADMIN CONFIG
 if (file_exists($config_path . 'admin.json')) {
 	$admin_config = json_decode(file_get_contents($config_path . 'admin.json'));
 	define('INF_ADMIN', $admin_config);
+}
+
+// PUBLIC CONFIG
+if (file_exists($config_path . 'public.json')) {
+	$public_config = json_decode(file_get_contents($config_path . 'public.json'));
+	define('INF_PUBLIC', $public_config);
 }
 
 // TABLES CONFIG

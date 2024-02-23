@@ -1,4 +1,5 @@
 {
+	"version": "100",
 	"menu": {
 		"page_title": "Settings",
 		"menu_title": "Settings",
@@ -24,35 +25,45 @@
 			"slug": "seed-db",
 			"label": "Seed the DB",
 			"description": "Clicking this button will add fake records to the DB.",
-			"type": "button"
+			"type": "button",
+			"save": false,
+			"default": ""
 		},
 		{
 			"view": "settings-advanced",
 			"slug": "seed-db-adv",
 			"label": "Seed the DB Advanced",
 			"description": "Clicking this button will add fake records to the Advanced DB.",
-			"type": "button-adv"
-		},
-		{
-			"view": "settings-advanced",
-			"slug": "seed-db-adv",
-			"label": "Seed the DB Advanced",
-			"description": "Clicking this button will add fake records to the Advanced DB.",
-			"type": "button-adv"
+			"type": "button-adv",
+			"save": false,
+			"default": ""
 		},
 		{
 			"view": "settings-general",
-			"slug": "test-option",
-			"label": "Test Option",
+			"slug": "test-option-1",
+			"label": "Test Option 1",
 			"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula.",
-			"type": "text"
+			"type": "text",
+			"save": true,
+			"default": "test-option-1"
 		},
 		{
 			"view": "settings-general",
-			"slug": "test-option",
-			"label": "Test Option",
+			"slug": "test-option-2",
+			"label": "Test Option 2",
 			"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula.",
-			"type": "text"
+			"type": "text",
+			"save": true,
+			"default": "test-option-2"
+		},
+		{
+			"view": "settings-general",
+			"slug": "test-option-3",
+			"label": "Test Option 3",
+			"description": "Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Phasellus laoreet lorem vel dolor tempus vehicula.",
+			"type": "text",
+			"save": true,
+			"default": "test-option-4"
 		}
 	]
 }

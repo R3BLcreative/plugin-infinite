@@ -55,8 +55,9 @@ COMING SOON...
 
 ## ROADMAP
 
-- TODO: Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
-- TODO: Allow for dynamically creating tables, roles, caps, and options while the plugin is active
+- [x]: Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
+- TODO: Enable standard components for settings fields
+- [x]: Allow for dynamically creating tables, roles, caps, and options while the plugin is active
 - TODO: Create a dynamic form component that populates form fields based on tables config
 - TODO: Better way of calling/handling/including page/template/component files
 - SOMEDAY: Re-develop plugin to be react based instead of PHP - this will allow the admin/public portal to be a single page reactive environment that is much faster and more modular.

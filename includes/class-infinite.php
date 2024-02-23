@@ -60,10 +60,75 @@ class Infinite {
 		}
 		$this->plugin_name = 'infinite';
 
+		$this->check_configs();
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	private function check_configs() {
+		if (defined('INF_ADMIN')) {
+			$v = get_option('INF_ADMIN');
+			if ($v != INF_ADMIN->version) $this->run_config_update('INF_ADMIN');
+		}
+
+		if (defined('INF_PUBLIC')) {
+			$v = get_option('INF_PUBLIC');
+			if ($v != INF_PUBLIC->version) $this->run_config_update('INF_PUBLIC');
+		}
+
+		if (defined('INF_ROLES')) {
+			$v = get_option('INF_ROLES');
+			if ($v != INF_ROLES->version) $this->run_config_update('INF_ROLES');
+		}
+
+		if (defined('INF_SETTINGS')) {
+			$v = get_option('INF_SETTINGS');
+			if ($v != INF_SETTINGS->version) $this->run_config_update('INF_SETTINGS');
+		}
+
+		if (defined('INF_TABLES')) {
+			$v = get_option('INF_TABLES');
+			if ($v != INF_TABLES->version) $this->run_config_update('INF_TABLES');
+		}
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	private function run_config_update($config) {
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-infinite-activator.php';
+		$activator = new Infinite_Activator();
+
+		switch ($config) {
+			case 'INF_ADMIN':
+				// nothing needs to be done. Updates will already happen live
+				break;
+			case 'INF_PUBLIC':
+				// nothing needs to be done. Updates will already happen live
+				break;
+			case 'INF_ROLES':
+				$activator->custom_roles();
+				break;
+			case 'INF_SETTINGS':
+				$activator->custom_options();
+				break;
+			case 'INF_TABLES':
+				// This handles the creation of new tables and updating table structures to the config
+				$activator->custom_tables();
+				break;
+		}
+
+		// Update the config options with new versions
+		$activator->config_options();
 	}
 
 	/**

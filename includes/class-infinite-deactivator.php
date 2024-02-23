@@ -31,27 +31,20 @@ class Infinite_Deactivator {
 	 */
 	public static function deactivate() {
 		// TODO: Copy this to Uninstall.php and delete this once plugin is deployed
-		$path = plugin_dir_path(dirname(__FILE__));
-
 		// Remove custom tables
 		global $wpdb;
 
-		$tables_config_path = $path . 'config/tables.json';
-		if (file_exists($tables_config_path)) {
-			$tables = json_decode(file_get_contents($tables_config_path));
-
+		if (defined('INF_TABLES') && property_exists(INF_TABLES, 'tables')) {
 			$wpdb->query("SET FOREIGN_KEY_CHECKS = 0;");
-			foreach ($tables as $table) {
+			foreach (INF_TABLES as $table) {
 				$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}{$table->table_name}");
 			}
 			$wpdb->query("SET FOREIGN_KEY_CHECKS = 1;");
 		}
 
 		// Remove custom roles/caps
-		$roles_config_path = $path . 'config/roles.json';
-		if (file_exists($roles_config_path)) {
-			$roles = json_decode(file_get_contents($roles_config_path));
-			foreach ($roles as $role) {
+		if (defined('INF_ROLES') && property_exists(INF_ROLES, 'roles')) {
+			foreach (INF_ROLES as $role) {
 				add_role($role->slug, $role->label, $role->caps);
 
 				if ($role->isAdmin) {
@@ -59,6 +52,15 @@ class Infinite_Deactivator {
 					foreach ($role->admin_caps as $cap) {
 						$admins->add_cap($cap, true);
 					}
+				}
+			}
+		}
+
+		// Remove custom options
+		if (defined('INF_SETTINGS') && property_exists(INF_SETTINGS, 'options')) {
+			foreach (INF_SETTINGS->options as $option) {
+				if (property_exists($option, 'save') && $option->save === true) {
+					delete_option($option->slug);
 				}
 			}
 		}

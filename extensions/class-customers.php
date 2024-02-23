@@ -54,11 +54,8 @@ class Infinite_Customers {
 	 * @var		string		$table_name		The name of the table to get
 	 */
 	public function get_config($table_name) {
-		$config_path = plugin_dir_path(dirname(__FILE__)) . 'config/tables.json';
-		if (file_exists($config_path)) {
-			$tables = json_decode(file_get_contents($config_path));
-
-			foreach ($tables as $table) {
+		if (defined('INF_TABLES') && property_exists(INF_TABLES, 'tables')) {
+			foreach (INF_TABLES->tables as $table) {
 				if ($table->table_name == $table_name) return $table;
 			}
 		}

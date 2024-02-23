@@ -298,9 +298,9 @@ class Infinite_Admin {
 		$screen = $this->get_current_screen();
 		$views = $this->get_views();
 		$current_view = $this->get_current_view();
-		$current = $current_view->slug;
 
 		if ($views) {
+			$current = $current_view->slug;
 			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/temp_nav.php';
 		}
 	}
