@@ -3,7 +3,8 @@
 /**
  * Infinite helper functions.
  *
- * This is used to define helper functions that are available to the entire plugin.
+ * This is used to define helper functions that are 
+ * available to the entire plugin.
  *
  *
  * @since      1.0.0

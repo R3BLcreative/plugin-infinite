@@ -1,33 +1,21 @@
 {
 	"menu": {
-		"page_title": "Infinite - Dashboard",
+		"page_title": "Dashboard",
 		"menu_title": "Infinite Admin",
 		"caps": "manage_infinite",
 		"slug": "infinite-dashboard",
-		"cb": "infinite_dashboard",
-		"order": 3
+		"order": 3,
+		"description": "A high level overview of what's been happening. Customize your dashboard to suite your specific use cases and tasks."
 	},
 	"screens": [
 		{
-			"parent": "infinite-dashboard",
-			"page_title": "Dashboard",
-			"menu_title": "Dashboard",
-			"caps": "manage_infinite",
-			"slug": "infinite-dashboard",
-			"cb": "infinite_dashboard",
-			"order": 1,
-			"description": "A high level overview of what's been happening. Customize your dashboard to suite your specific use cases and tasks."
-		},
-		{
-			"parent": "infinite-dashboard",
 			"page_title": "Customers",
 			"menu_title": "Customers",
 			"caps": "manage_infinite",
 			"slug": "infinite-customers",
-			"cb": "infinite_page",
 			"order": 2,
 			"description": "Get detailed insights, tracking data, and enable third-party integrations to create an all-in-one single location for your admins to manage customer data and customer related flows.",
-			"nav_items": [
+			"views": [
 				{
 					"slug": "customer-list",
 					"menu_title": "List",
@@ -63,27 +51,6 @@
 					"visible": false,
 					"class": "Infinite_Customers",
 					"method": "get_customer_details"
-				}
-			]
-		},
-		{
-			"parent": "infinite-dashboard",
-			"page_title": "Settings",
-			"menu_title": "Settings",
-			"caps": "manage_infinite",
-			"slug": "infinite-settings",
-			"cb": "infinite_settings",
-			"order": 99,
-			"description": "Manage the various settings and features of the Infinite plugin.",
-			"nav_items": [
-				{
-					"slug": "settings-general",
-					"menu_title": "General",
-					"view_title": "General Settings",
-					"main_view": true,
-					"visible": true,
-					"class": "__CLASS__",
-					"method": "get_general_settings"
 				}
 			]
 		}

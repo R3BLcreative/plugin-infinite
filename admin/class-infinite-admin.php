@@ -41,24 +41,6 @@ class Infinite_Admin {
 	private $version;
 
 	/**
-	 * The config info for building out the WordPress admin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      obj    $admin_config    The JSON config data for the plugin.
-	 */
-	private $admin_config = false;
-
-	/**
-	 * The config info for building out the settings page.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      obj    $settings_config    The JSON config data for the settings.
-	 */
-	private $settings_config = false;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -69,14 +51,6 @@ class Infinite_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
-		$config_path = plugin_dir_path(dirname(__FILE__)) . '/config/';
-		if (file_exists($config_path . 'admin.json')) {
-			$this->admin_config = json_decode(file_get_contents($config_path . 'admin.json'));
-		}
-		if (file_exists($config_path . 'settings.json')) {
-			$this->settings_config = json_decode(file_get_contents($config_path . 'settings.json'));
-		}
 	}
 
 	/**
@@ -129,7 +103,7 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	public function admin_body_class($classes) {
-		if ($this->admin_config) {
+		if (defined('INF_ADMIN')) {
 			$current = (array_key_exists('page', $_GET)) ? $_GET['page'] : false;
 
 			if ($this->get_screen($current)) {
@@ -146,9 +120,21 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	private function get_screens() {
-		if ($this->admin_config) {
-			return $this->admin_config->screens;
+		$screens = [];
+
+		if (defined('INF_ADMIN')) {
+			$screens = INF_ADMIN->screens;
+
+			// Add menu config to screens to handle the dashboard screen
+			$screens[] = INF_ADMIN->menu;
 		}
+
+		// Add menu config to screens to handle the settings screen
+		if (defined('INF_SETTINGS')) {
+			$screens[] = INF_SETTINGS->menu;
+		}
+
+		if (!empty($screens)) return $screens;
 
 		return false;
 	}
@@ -159,8 +145,8 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	private function get_screen($slug) {
-		if ($this->admin_config && $slug) {
-			$screens = $this->admin_config->screens;
+		if (defined('INF_ADMIN') && $slug) {
+			$screens = $this->get_screens();
 
 			foreach ($screens as $screen) {
 				if ($screen->slug == $slug) return $screen;
@@ -181,18 +167,38 @@ class Infinite_Admin {
 	}
 
 	/**
-	 * Returns the current screen's config
+	 * Returns all view configs for the current screen
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_views() {
+		$screen = $this->get_current_screen();
+
+		// Handle standard screen views
+		if ($screen && property_exists($screen, 'views')) {
+			return $screen->views;
+		}
+
+		// Handle settings screen views
+		if (defined('INF_SETTINGS') && $_GET['page'] == 'infinite-settings') {
+			if (property_exists(INF_SETTINGS, 'views')) {
+				return INF_SETTINGS->views;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the current view's config
 	 *
 	 * @since    1.0.0
 	 */
 	public function get_current_view() {
-		$current_screen = $_GET['page'];
 		$current_view = (isset($_GET['view'])) ? $_GET['view'] : false;
+		$views = $this->get_views();
 
-		$screen = $this->get_screen($current_screen);
-		if (property_exists($screen, 'nav_items')) {
-			$views = $screen->nav_items;
-
+		if ($views) {
 			foreach ($views as $view) {
 				if ((!$current_view && $view->main_view) || $view->slug == $current_view) return $view;
 			}
@@ -210,13 +216,22 @@ class Infinite_Admin {
 		$icon = 'data:image/svg+xml;base64,' . $this->get_menu_icon_svg();
 
 		// Add main menu page
-		if ($this->admin_config) {
-			$menu = $this->admin_config->menu;
-			add_menu_page($menu->page_title, $menu->menu_title, $menu->caps, $menu->slug, [$this, $menu->cb], $icon, $menu->order);
+		if (defined('INF_ADMIN')) {
+			$menu = INF_ADMIN->menu;
+			add_menu_page($menu->page_title, $menu->menu_title, $menu->caps, $menu->slug, [$this, 'infinite_dashboard'], $icon, $menu->order);
+
+			// Add parent submenu page
+			add_submenu_page($menu->slug, $menu->page_title, $menu->page_title, $menu->caps, $menu->slug, [$this, 'infinite_dashboard'], 1);
 
 			// Add submenu pages
-			foreach ($this->get_screens() as $screen) {
-				add_submenu_page($screen->parent, $screen->page_title, $screen->menu_title, $screen->caps, $screen->slug, [$this, $screen->cb], $screen->order);
+			foreach (INF_ADMIN->screens as $screen) {
+				add_submenu_page($menu->slug, $screen->page_title, $screen->menu_title, $screen->caps, $screen->slug, [$this, 'infinite_page'], $screen->order);
+			}
+
+			// Add settings submenu page
+			if (defined('INF_SETTINGS')) {
+				$smenu = INF_SETTINGS->menu;
+				add_submenu_page($menu->slug, $smenu->page_title, $smenu->menu_title, $smenu->caps, $smenu->slug, [$this, 'infinite_settings'], 100);
 			}
 		}
 	}
@@ -281,9 +296,11 @@ class Infinite_Admin {
 	 */
 	public function infinite_nav() {
 		$screen = $this->get_current_screen();
-		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
+		$views = $this->get_views();
+		$current_view = $this->get_current_view();
+		$current = $current_view->slug;
 
-		if (property_exists($screen, 'nav_items')) {
+		if ($views) {
 			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/temp_nav.php';
 		}
 	}
@@ -335,7 +352,8 @@ class Infinite_Admin {
 	 */
 	public function infinite_filters($data) {
 		$screen = $this->get_current_screen();
-		$view = (isset($_GET['view'])) ? $_GET['view'] : false;
+		$current_view = $this->get_current_view();
+		$view = $current_view->slug;
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_filters.php';
 	}
@@ -345,12 +363,15 @@ class Infinite_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	private function get_settings_view_options($view) {
-		foreach ($this->settings_config as $setting) {
-			if ($setting->view == $view) $options[] = $setting;
+	private function get_options($view) {
+		if (defined('INF_SETTINGS') && property_exists(INF_SETTINGS, 'options')) {
+			foreach (INF_SETTINGS->options as $option) {
+				if ($option->view == $view) $options[] = $option;
+			}
+			return $options;
 		}
 
-		return $options;
+		return false;
 	}
 
 	/**
@@ -358,8 +379,10 @@ class Infinite_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function get_general_settings() {
-		$options = $this->get_settings_view_options('settings-general');
+	public function display_settings() {
+		$current_view = $this->get_current_view();
+		$view = $current_view->slug;
+		$options = $this->get_options($view);
 
 		print_r($options);
 		$nonce = wp_create_nonce('customers_seeder_nonce');
@@ -370,5 +393,6 @@ class Infinite_Admin {
 		// TODO: Scope out option types (button, toggle, slider, text, number, select, etc.)
 		// TODO: Option types should be components
 		// TODO: Each page should be wrapped in a form with a submit button for now.
+		// TODO: Are configs available to the activator/deactivator class??? If so, update those.
 	}
 }

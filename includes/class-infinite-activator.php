@@ -37,6 +37,9 @@ class Infinite_Activator {
 
 		// Create custom roles/caps
 		self::custom_roles($path);
+
+		// TODO: Add custom settings to WP options table
+		// self::custom_options($path);
 	}
 
 	/**
@@ -92,6 +95,24 @@ class Infinite_Activator {
 						$admins->add_cap($cap, true);
 					}
 				}
+			}
+		}
+	}
+
+	/**
+	 * Add custom settings to WP Options table
+	 * 
+	 * Long description
+	 * 
+	 * @since    1.0.0
+	 */
+	public static function custom_options($path) {
+		$config_path = $path . 'config/settings.json';
+
+		if (file_exists($config_path)) {
+			$settings = json_decode(file_get_contents($config_path));
+
+			foreach ($settings as $setting) {
 			}
 		}
 	}

@@ -16,14 +16,11 @@ $inactiveCss = 'px-6 py-4 transition-all ease-in-out opacity-50 border-t border-
 $activeCss = 'px-6 py-4 border-t border-b border-surface-50 text-body-50 focus:shadow-none focus:outline-0';
 ?>
 
-<nav id="infinite-nav" class="border border-surface-500 bg-surface-800 flex flex-row flex-nowrap items-stretch justify-between gap-4 text-base text-body-50 font-body font-normal shadow-lg rounded-lg overflow-hidden px-6">
+<nav id="infinite-nav" class="border border-surface-500 bg-surface-800 text-base text-body-50 font-body font-normal shadow-lg rounded-lg overflow-hidden px-6">
 	<div class="flex flex-row flex-nowrap items-stretch justify-start gap-4">
-		<?php foreach ($screen->nav_items as $nav) : if ($nav->visible) : ?>
-				<a href="<?php echo admin_url('admin.php?page=' . $screen->slug . '&view=' . $nav->slug); ?>" class="<?php echo ((!$view && $nav->main_view) || $view == $nav->slug) ? $activeCss : $inactiveCss; ?>"><?php echo $nav->menu_title; ?></a>
+		<?php foreach ($views as $view) : if ($view->visible) : ?>
+				<a href="<?php echo admin_url('admin.php?page=' . $screen->slug . '&view=' . $view->slug); ?>" class="<?php echo ((!$current && $view->main_view) || $current == $view->slug) ? $activeCss : $inactiveCss; ?>"><?php echo $view->menu_title; ?></a>
 		<?php endif;
 		endforeach; ?>
-	</div>
-	<div class="flex flex-row flex-nowrap items-center justify-end gap-4">
-		<!-- SECONDARY NAV ITEMS??? -->
 	</div>
 </nav>
