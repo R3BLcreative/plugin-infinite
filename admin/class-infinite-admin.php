@@ -375,7 +375,7 @@ class Infinite_Admin {
 	}
 
 	/**
-	 * Get the settings options for the general settings view
+	 * Get the settings options for the settings view
 	 *
 	 * @since    1.0.0
 	 */

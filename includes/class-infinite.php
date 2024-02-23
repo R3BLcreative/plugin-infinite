@@ -60,46 +60,10 @@ class Infinite {
 		}
 		$this->plugin_name = 'infinite';
 
-		$this->load_configs();
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-	}
-
-	private function load_configs() {
-		$config_path = plugin_dir_path(dirname(__FILE__)) . '/config/';
-
-		// PUBLIC CONFIG
-		if (file_exists($config_path . 'public.json')) {
-			$public_config = json_decode(file_get_contents($config_path . 'public.json'));
-			define('INF_PUBLIC', $public_config);
-		}
-
-		// ADMIN CONFIG
-		// TODO: Need to insert 
-		if (file_exists($config_path . 'admin.json')) {
-			$admin_config = json_decode(file_get_contents($config_path . 'admin.json'));
-			define('INF_ADMIN', $admin_config);
-		}
-
-		// TABLES CONFIG
-		if (file_exists($config_path . 'tables.json')) {
-			$tables_config = json_decode(file_get_contents($config_path . 'tables.json'));
-			define('INF_TABLES', $tables_config);
-		}
-
-		// ROLES CONFIG
-		if (file_exists($config_path . 'roles.json')) {
-			$roles_config = json_decode(file_get_contents($config_path . 'roles.json'));
-			define('INF_ROLES', $roles_config);
-		}
-
-		// SETTINGS CONFIG
-		if (file_exists($config_path . 'settings.json')) {
-			$settings_config = json_decode(file_get_contents($config_path . 'settings.json'));
-			define('INF_SETTINGS', $settings_config);
-		}
 	}
 
 	/**
