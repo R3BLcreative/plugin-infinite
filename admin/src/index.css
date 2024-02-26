@@ -2,26 +2,26 @@
 
 @config './../../tw-admin.config.js';
 
-.infinite-admin {
+body.infinite-admin {
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
 
 	@apply bg-surface-700;
 
-	#wpfooter {
+	& #wpfooter {
 		@apply hidden;
 	}
 
-	#infinite-wrap {
+	& #infinite-wrap {
 		@apply pr-5;
 	}
 
-	#infinite-content {
+	& #infinite-content {
 		@apply text-body !font-body text-base py-5 px-3;
 	}
 
-	.infinite-button {
+	& .infinite-button {
 		@apply py-3 px-4 flex flex-row items-center justify-center gap-2 w-fit rounded-md transition-all ease-in-out;
 
 		&.btn-icon {
@@ -48,23 +48,23 @@
 			@apply border bg-surface-600 text-body-50 fill-body-50 border-surface-500 shadow-sm hover:bg-primary hover:text-primary-50 hover:fill-primary-50 hover:border-primary-400 hover:shadow-lg active:bg-surface-400 active:text-body-100 active:fill-body-100 active:border-surface-200 active:shadow-none;
 		}
 
-		i {
+		& i {
 			@apply fill-inherit block w-4;
 		}
 	}
 
-	select,
-	input[type='text'] {
+	& select,
+	& input[type='text'] {
 		@apply py-3 px-4 min-w-[135px] rounded-md border border-surface-500 bg-surface-800 text-body-50 font-body font-normal shadow-lg hover:text-body-50 focus:text-body-50 placeholder:italic;
 	}
 
-	input[type='number'] {
+	& input[type='number'] {
 		@apply py-3 px-4 text-center rounded-md border border-surface-500 bg-surface-800 text-body-50 font-body font-normal shadow-lg hover:text-body-50 focus:text-body-50 placeholder:italic;
 		appearance: textfield;
 	}
 
-	input[type='number']::-webkit-inner-spin-button,
-	input[type='number']::-webkit-outer-spin-button {
+	& input[type='number']::-webkit-inner-spin-button,
+	& input[type='number']::-webkit-outer-spin-button {
 		-webkit-appearance: none;
 		margin: 0;
 	}
