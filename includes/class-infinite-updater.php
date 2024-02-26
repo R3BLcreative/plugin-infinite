@@ -48,9 +48,9 @@ class Infinite_Updater {
 		$this->cache_key = $this->plugin_name . '_updater';
 		$this->cache_allowed = false;
 
-		// add_filter('plugins_api', [$this, 'info'], 20, 3);
-		// add_filter('site_transient_update_plugins', [$this, 'update']);
-		// add_action('upgrader_process_complete', [$this, 'purge'], 10, 2);
+		add_filter('plugins_api', [$this, 'info'], 20, 3);
+		add_filter('site_transient_update_plugins', [$this, 'update']);
+		add_action('upgrader_process_complete', [$this, 'purge'], 10, 2);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Infinite_Updater {
 
 		if (false === $remote || !$this->cache_allowed) {
 			$remote = wp_remote_get(
-				'https://wpfreighter.com/plugin-wpfreighter.json', // TODO: Update with URL to plugin manifest info.json
+				'https://r3blcreative.com/wp-plugins/infinite/info.json',
 				[
 					'timeout' => 10,
 					'headers' => [

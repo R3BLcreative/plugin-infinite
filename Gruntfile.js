@@ -10,13 +10,10 @@ module.exports = function (grunt) {
 				},
 				files: [
 					{ src: './admin/**' },
-					{ src: './config/index.php' },
-					{ src: './extensions/index.php' },
 					{ src: './icons/**' },
 					{ src: './includes/**' },
 					{ src: './languages/**' },
 					{ src: './public/**' },
-					{ src: './sql/index.php' },
 					{ src: './postcss.config.js' },
 					{ src: './tw-admin.config.js' },
 					{ src: './tw-public.config.js' },
