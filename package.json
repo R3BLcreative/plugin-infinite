@@ -7,6 +7,8 @@
 		"@tailwindcss/forms": "^0.5.7",
 		"autoprefixer": "^10.4.17",
 		"clean-css": "^5.3.3",
+		"grunt": "^1.6.1",
+		"grunt-contrib-compress": "^2.0.0",
 		"npm-run-all": "^4.1.5",
 		"postcss": "^8.4.33",
 		"postcss-import": "^16.0.0",
@@ -28,7 +30,9 @@
 		"jsbuildb": "uglifyjs-folder ./admin/src/js/ -o ./admin/js/ -e -x .js",
 		"jsdevb": "watch 'npm run jsbuildb' ./admin/src/js/",
 		"twbuildb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --postcss --minify",
-		"twdevb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --watch --postcss"
+		"twdevb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --watch --postcss",
+		"grunt": "grunt default",
+		"dist": "npm-run-all --sequential jsbuildf twbuildf jsbuildb twbuildb grunt"
 	},
 	"dependencies": {
 		"postcss-nested": "^6.0.1"

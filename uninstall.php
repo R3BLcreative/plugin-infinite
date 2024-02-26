@@ -20,6 +20,54 @@
  */
 
 // If uninstall not called from WordPress, then exit.
-if (!defined('WP_UNINSTALL_PLUGIN')) {
-	exit;
+if (!defined('WP_UNINSTALL_PLUGIN')) exit;
+
+// Plugin name/slug
+$plugin_name = plugin_basename(__DIR__);
+
+// Remove custom options
+if (defined('INF_SETTINGS') && property_exists(INF_SETTINGS, 'options')) {
+	foreach (INF_SETTINGS->options as $option) {
+		if (property_exists($option, 'save') && $option->save === true) {
+			delete_option($option->slug);
+		}
+	}
+}
+
+// Remove transients
+$transients = [
+	'_updater'
+];
+
+foreach ($transients as $transient) {
+	delete_transient($plugin_name . $transient);
+}
+
+// Remove cron events
+// $timestamp = wp_next_scheduled('infinite_cron_event');
+// wp_unschedule_event($timestamp, 'infinite_cron_event');
+
+// Remove custom tables
+global $wpdb;
+
+if (defined('INF_TABLES') && property_exists(INF_TABLES, 'tables')) {
+	$wpdb->query("SET FOREIGN_KEY_CHECKS = 0;");
+	foreach (INF_TABLES as $table) {
+		$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}{$table->table_name}");
+	}
+	$wpdb->query("SET FOREIGN_KEY_CHECKS = 1;");
+}
+
+// Remove custom roles/caps
+if (defined('INF_ROLES') && property_exists(INF_ROLES, 'roles')) {
+	foreach (INF_ROLES as $role) {
+		add_role($role->slug, $role->label, $role->caps);
+
+		if ($role->isAdmin) {
+			$admins = get_role('administrator');
+			foreach ($role->admin_caps as $cap) {
+				$admins->add_cap($cap, true);
+			}
+		}
+	}
 }

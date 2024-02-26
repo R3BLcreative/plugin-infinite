@@ -26,6 +26,15 @@ class Infinite {
 	protected $loader;
 
 	/**
+	 * The updater responsible for handling one-click and automatic updates.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      Infinite_Updater    $updater    Handles plugin updates.
+	 */
+	protected $updater;
+
+	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
@@ -151,6 +160,11 @@ class Infinite {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/infinite-helpers.php';
 
 		/**
+		 * Load updated class to enable one-click and automatic plugin updates
+		 */
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-infinite-updater.php';
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
@@ -174,6 +188,7 @@ class Infinite {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-infinite-public.php';
 
 		$this->loader = new Infinite_Loader();
+		$this->updater = new Infinite_Updater();
 	}
 
 	/**
