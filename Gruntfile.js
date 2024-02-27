@@ -9,6 +9,9 @@ module.exports = function (grunt) {
 					mode: 'zip',
 				},
 				files: [
+					{ src: './config/**' },
+					{ src: './extensions/**' },
+					{ src: './sql/**' },
 					{ src: './admin/**' },
 					{ src: './icons/**' },
 					{ src: './includes/**' },
