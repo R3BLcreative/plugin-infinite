@@ -55,9 +55,9 @@ COMING SOON...
 
 ## ROADMAP
 
-- TODO: Enable one-click and automatic updates
-- TODO: Figure out where to host update manifest files (info.json, banners)
-- TODO: Setup build process to generate a release plugin zip file for updates
+- [x]: Enable one-click and automatic updates
+- [x]: Figure out where to host update manifest files (info.json, banners)
+- [x]: Setup build process to generate a release plugin zip file for updates
 - [x]: Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
 - TODO: Enable standard components for settings fields
 - [x]: Allow for dynamically creating tables, roles, caps, and options while the plugin is active
