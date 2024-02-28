@@ -40,7 +40,11 @@ define('INFINITE_VERSION', '1.0.0');
  */
 define('INFINITE_SLUG', plugin_basename(__DIR__));
 
-$config_path = plugin_dir_path(__FILE__) . '/config/';
+
+/**
+ * Load configs from child theme directory
+ */
+$config_path = get_stylesheet_directory() . '/infinite-child/config/';
 
 // ADMIN CONFIG
 if (file_exists($config_path . 'admin.json')) {
@@ -103,13 +107,13 @@ require plugin_dir_path(__FILE__) . 'includes/class-infinite.php';
  * This code reads the extensions directory and loads the files 
  * located in it for auto-loading of extensions.
  */
-if ($handle = opendir(dirname(__FILE__) . '/extensions')) {
+if ($handle = opendir(get_stylesheet_directory() . '/infinite-child/extensions')) {
 	while (false !== ($file = readdir($handle))) {
 		if ('.' === $file) continue;
 		if ('..' === $file) continue;
 		if ('index.php' === $file) continue;
 
-		require_once plugin_dir_path(__FILE__) . 'extensions/' . $file;
+		require_once get_stylesheet_directory() . '/infinite-child/extensions/' . $file;
 	}
 
 	closedir($handle);

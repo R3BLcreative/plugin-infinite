@@ -69,7 +69,11 @@ class Infinite_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/infinite-admin.css', array(), filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/css/infinite-admin.css'), 'all');
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/infinite-admin.css', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/css/infinite-admin.css'), 'all');
+
+		if (file_exists(get_stylesheet_directory() . '/infinite-child/admin/css/infinite-admin.css')) {
+			wp_enqueue_style($this->plugin_name . '-child', get_stylesheet_directory_uri() . '/infinite-child/admin/css/infinite-admin.css', [], filemtime(get_stylesheet_directory() . '/infinite-child/admin/css/infinite-admin.css'), 'all');
+		}
 	}
 
 	/**
@@ -91,7 +95,11 @@ class Infinite_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/infinite-admin.js', array(), filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/js/infinite-admin.js'), false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/infinite-admin.js', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/js/infinite-admin.js'), false);
+
+		if (file_exists(get_stylesheet_directory() . '/infinite-child/admin/js/infinite-admin.js')) {
+			wp_enqueue_script($this->plugin_name . '-child', get_stylesheet_directory_uri() . '/infinite-child/admin/js/infinite-admin.js', [], filemtime(get_stylesheet_directory() . '/infinite-child/admin/js/infinite-admin.js'), false);
+		}
 	}
 
 	/**
@@ -234,12 +242,29 @@ class Infinite_Admin {
 	}
 
 	/**
+	 * Get the SVG code for the admin logo
+	 *
+	 * @since      1.0.0
+	 * @package    Infinite
+	 * 
+	 */
+	public function get_admin_logo() {
+		if (file_exists(get_stylesheet_directory() . '/infinite-child/admin/images/admin_logo.svg')) {
+			$file = file_get_contents(get_stylesheet_directory() . '/infinite-child/admin/images/admin_logo.svg');
+		} else {
+			$file = file_get_contents(plugin_dir_path(__FILE__) . '/images/admin_logo.svg');
+		}
+
+		return $file;
+	}
+
+	/**
 	 * Returns the menu icon SVG code
 	 *
 	 * @since    1.0.0
 	 */
 	public function get_menu_icon_svg() {
-		return base64_encode(file_get_contents(plugin_dir_path(__FILE__) . '/images/icon_menu.svg'));
+		return base64_encode($this->get_admin_logo());
 	}
 
 	/**
@@ -282,6 +307,7 @@ class Infinite_Admin {
 	 */
 	public function infinite_header() {
 		$screen = $this->get_current_screen();
+		$admin_logo = $this->get_admin_logo();
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/temp_header.php';
 	}

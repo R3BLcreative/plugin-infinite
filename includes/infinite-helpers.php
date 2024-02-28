@@ -20,9 +20,11 @@
  * @package    Infinite
  * 
  * @var		string		$icon		the icon file name without the .ext
+ * @var		string		$path		optional path to file
  */
-function inf_get_icon($icon) {
-	$file = plugin_dir_path(dirname(__FILE__)) . 'icons/' . $icon . '.svg';
+function inf_get_icon($icon, $path = false) {
+	$path = ($path) ? $path : 'icons/';
+	$file = plugin_dir_path(dirname(__FILE__)) . $path . $icon . '.svg';
 
 	if (file_exists($file)) {
 		return file_get_contents($file);

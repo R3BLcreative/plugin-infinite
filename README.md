@@ -53,14 +53,46 @@ COMING SOON...
 
 ---
 
+## CUSTOMIZING
+
+To customize the plugin, Infinite looks for a directory labeled "infinite-child" in your current theme or child theme directory. If you are using a pre-built theme that is managed by a third-party, it is recommended that you create a child theme that references your main theme. This will prevent your customizations from being deleted when the main theme gets an update.
+
+Depending on your needs, your "infinite-child" directory can be structured as follows:
+
+- infinite-child
+  - admin
+    - css
+    - images
+    - js
+    - partials
+    - src
+  - config
+  - extensions
+  - public
+    - css
+    - images
+    - js
+    - partials
+    - src
+  - sql
+  - tw-admin.config.js
+  - tw-public.config.js
+
+---
+
 ## ROADMAP
 
-- [x]: Enable one-click and automatic updates
-- [x]: Figure out where to host update manifest files (info.json, banners)
-- [x]: Setup build process to generate a release plugin zip file for updates
-- [x]: Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
-- TODO: Enable standard components for settings fields
+- [x] Enable one-click and automatic updates
+- [x] Figure out where to host update manifest files (info.json, banners)
+- [x] Setup build process to generate a release plugin zip file for updates
+- [x] Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
+- [ ] Create standard components for settings fields
 - [x]: Allow for dynamically creating tables, roles, caps, and options while the plugin is active
-- TODO: Create a dynamic form component that populates form fields based on tables config
-- TODO: Better way of calling/handling/including page/template/component files
-- SOMEDAY: Re-develop plugin to be react based instead of PHP - this will allow the admin/public portal to be a single page reactive environment that is much faster and more modular.
+- [ ] Create a dynamic form component that populates form fields based on db tables config
+- [ ] Better way of calling/handling/including page/template/component files
+
+---
+
+## SOMEDAY
+
+- [ ] Re-develop plugin to be react based instead of PHP - this will allow the admin/public portal to be a single page reactive environment that is much faster and more modular.
