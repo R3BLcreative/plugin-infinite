@@ -1,8 +1,10 @@
 module.exports = {
 	plugins: {
-		'postcss-import': {},
 		'tailwindcss/nesting': {},
 		tailwindcss: {},
+		'postcss-prefix-selector': {
+			prefix: 'body.infinite-css',
+		},
 		autoprefixer: {},
 	},
 };

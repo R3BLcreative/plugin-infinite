@@ -12,7 +12,7 @@
  * @subpackage Infinite/admin/partials
  */
 
-// TODO: Responsive styles/layout
+// [ ] Responsive styles/layout
 
 $thCss = 'px-3 py-3 font-semibold text-lg tracking-wider text-primary';
 $tdCss = 'px-3 py-5';

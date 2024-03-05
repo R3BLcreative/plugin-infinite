@@ -1,0 +1,5 @@
+@config "./../../tw-public.config.js";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -54,7 +54,7 @@ class Infinite_Activator {
 		if (defined('INF_TABLES') && property_exists(INF_TABLES, 'tables')) {
 			foreach (INF_TABLES->tables as $table) {
 				$tablename = $wpdb->prefix . $table->table_name;
-				$schema_path = get_stylesheet_directory() . '/infinite-child/sql/' . $table->table_sql;
+				$schema_path = get_stylesheet_directory() . '/infinite/sql/' . $table->table_sql;
 
 				if (file_exists($schema_path)) {
 					$schema = file_get_contents($schema_path);

@@ -12,8 +12,8 @@
  * @subpackage Infinite/admin/partials
  */
 
-$inactiveCss = 'px-6 py-4 transition-all ease-in-out opacity-50 border-t border-b border-transparent hover:border-surface-50 hover:opacity-100 hover:text-body-50 focus:shadow-none focus:outline-0';
-$activeCss = 'px-6 py-4 border-t border-b border-surface-50 text-body-50 focus:shadow-none focus:outline-0';
+$inactiveCss = 'px-6 py-4 transition-all ease-in-out opacity-50 border-t border-b border-transparent hover:border-surface-50 hover:opacity-100 hover:text-body-50 focus:shadow-none focus:outline-0 cursor-pointer';
+$activeCss = 'px-6 py-4 border-t border-b border-surface-50 text-body-50 focus:shadow-none focus:outline-0 cursor-pointer';
 ?>
 
 <nav id="infinite-nav" class="border border-surface-500 bg-surface-800 text-base text-body-50 font-body font-normal shadow-lg rounded-lg overflow-hidden px-6">

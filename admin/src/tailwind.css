@@ -2,11 +2,11 @@
 
 @config './../../tw-admin.config.js';
 
-body.infinite-admin {
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+#wpwrap {
 	@apply bg-surface-700;
 
 	& #wpfooter {

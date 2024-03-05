@@ -1,7 +1,14 @@
 {
-	"name": "infinite",
-	"version": "1.0.0",
-	"description": "",
+	"name": "infinite-plugin",
+	"title": "Infinite",
+	"last_version": "1.0.1",
+	"version": "1.0.2",
+	"created": "2024-02-26 13:18:00",
+	"description": "A plugin boilerplate for creating a fully customizable backend admin portal and frontend user portal.",
+	"wordpress": {
+		"sections": {},
+		"banners": {}
+	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.4.1",
 		"@tailwindcss/forms": "^0.5.7",
@@ -9,9 +16,11 @@
 		"clean-css": "^5.3.3",
 		"grunt": "^1.6.1",
 		"grunt-contrib-compress": "^2.0.0",
+		"grunt-string-replace": "^1.3.3",
 		"npm-run-all": "^4.1.5",
 		"postcss": "^8.4.33",
-		"postcss-import": "^16.0.0",
+		"postcss-nested": "^6.0.1",
+		"postcss-prefix-selector": "^1.16.0",
 		"tailwindcss": "^3.4.1",
 		"uglify-js": "^3.17.4",
 		"uglifyjs-folder": "^3.3.0",
@@ -23,18 +32,15 @@
 		"devf": "npm-run-all --parallel jsdevf twdevf",
 		"jsbuildf": "uglifyjs-folder ./public/src/js/ -o ./public/js/ -e -x .js",
 		"jsdevf": "watch 'npm run jsbuildf' ./public/src/js/",
-		"twbuildf": "tailwindcss -i ./public/src/index.css -o ./public/css/infinite-public.css --postcss --minify",
-		"twdevf": "tailwindcss -i ./public/src/index.css -o ./public/css/infinite-public.css --watch --postcss",
+		"twbuildf": "tailwindcss -i ./public/src/tailwind.css -o ./public/css/infinite-public.css --postcss --minify",
+		"twdevf": "tailwindcss -i ./public/src/tailwind.css -o ./public/css/infinite-public.css --watch --postcss",
 		"buildb": "npm-run-all --sequential jsbuildb twbuildb",
 		"devb": "npm-run-all --parallel jsdevb twdevb",
 		"jsbuildb": "uglifyjs-folder ./admin/src/js/ -o ./admin/js/ -e -x .js",
 		"jsdevb": "watch 'npm run jsbuildb' ./admin/src/js/",
-		"twbuildb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --postcss --minify",
-		"twdevb": "tailwindcss -i ./admin/src/index.css -o ./admin/css/infinite-admin.css --watch --postcss",
+		"twbuildb": "tailwindcss -i ./admin/src/tailwind.css -o ./admin/css/infinite-admin.css --postcss --minify",
+		"twdevb": "tailwindcss -i ./admin/src/tailwind.css -o ./admin/css/infinite-admin.css --watch --postcss",
 		"grunt": "grunt default",
 		"dist": "npm-run-all --sequential jsbuildf twbuildf jsbuildb twbuildb grunt"
-	},
-	"dependencies": {
-		"postcss-nested": "^6.0.1"
 	}
 }

@@ -16,7 +16,7 @@
  * Plugin Name:       Infinite
  * Plugin URI:        https://r3blcreative.com
  * Description:       A plugin boilerplate for creating a custom backend admin portal and frontend user portal.
- * Version:           1.0.0
+ * Version:           1.0.2
  * Author:            R3BL Creative - James Cook
  * Author URI:        https://r3blcreative.com/
  * License:           GPL-2.0+
@@ -33,7 +33,7 @@ if (!defined('WPINC')) {
 /**
  * Current plugin version.
  */
-define('INFINITE_VERSION', '1.0.0');
+define('INFINITE_VERSION', '1.0.2');
 
 /**
  * Plugin name/slug.
@@ -42,9 +42,9 @@ define('INFINITE_SLUG', plugin_basename(__DIR__));
 
 
 /**
- * Load configs from child theme directory
+ * Load configs from theme directory
  */
-$config_path = get_stylesheet_directory() . '/infinite-child/config/';
+$config_path = get_stylesheet_directory() . '/infinite/config/';
 
 // ADMIN CONFIG
 if (file_exists($config_path . 'admin.json')) {
@@ -107,16 +107,18 @@ require plugin_dir_path(__FILE__) . 'includes/class-infinite.php';
  * This code reads the extensions directory and loads the files 
  * located in it for auto-loading of extensions.
  */
-if ($handle = opendir(get_stylesheet_directory() . '/infinite-child/extensions')) {
-	while (false !== ($file = readdir($handle))) {
-		if ('.' === $file) continue;
-		if ('..' === $file) continue;
-		if ('index.php' === $file) continue;
+if (file_exists(get_stylesheet_directory() . '/infinite/extensions')) {
+	if ($handle = opendir(get_stylesheet_directory() . '/infinite/extensions')) {
+		while (false !== ($file = readdir($handle))) {
+			if ('.' === $file) continue;
+			if ('..' === $file) continue;
+			if ('index.php' === $file) continue;
 
-		require_once get_stylesheet_directory() . '/infinite-child/extensions/' . $file;
+			require_once get_stylesheet_directory() . '/infinite/extensions/' . $file;
+		}
+
+		closedir($handle);
 	}
-
-	closedir($handle);
 }
 
 /**

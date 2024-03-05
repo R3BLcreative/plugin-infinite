@@ -62,8 +62,9 @@ class Infinite_Updater {
 		$remote = get_transient($this->cache_key); // Uninstall should handle transient removal
 
 		if (false === $remote || !$this->cache_allowed) {
+			$cache_buster = rand(100, 5000);
 			$remote = wp_remote_get(
-				'https://r3blcreative.com/wp-plugins/infinite/info.json',
+				'https://r3blcreative.com/r3bl-updates/plugins/infinite/info.json?v=' . $cache_buster,
 				[
 					'timeout' => 10,
 					'headers' => [
@@ -159,11 +160,11 @@ class Infinite_Updater {
 
 		if ($remote && version_compare($this->version, $remote->version, '<') && version_compare($remote->requires, get_bloginfo('version'), '<=') && version_compare($remote->requires_php, PHP_VERSION, '<')) {
 			$response = new \stdClass();
-			$response->slug = $this->plugin_name;
-			$response->plugin = "{$this->plugin_name}/{$this->plugin_name}.php";
-			$response->new_version = $remote->version;
-			$response->tested = $remote->tested;
-			$response->package = $remote->download_url;
+			$response->slug					= $this->plugin_name;
+			$response->plugin				= $this->plugin_name . '/' . $this->plugin_name . '.php';
+			$response->new_version	= $remote->version;
+			$response->tested				= $remote->tested;
+			$response->package			= $remote->download_url;
 
 			$transient->response[$response->plugin] = $response;
 		}

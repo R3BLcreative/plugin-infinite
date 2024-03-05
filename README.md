@@ -26,6 +26,8 @@ The plugin allows for the creation of custom DB tables via the tables.json confi
 
 Extensions allow for advanced customization of the plugin. Extensions are classes that can be instantiated as part of the extension class code or it can be used as a callback for dynamic content loading. Extensions enable third-party integrations and API's. The possibilities are **INFINITE**.
 
+---
+
 ## ADMIN FEATURES
 
 ### Partials
@@ -47,6 +49,8 @@ Partials are a mix of pages, templates, and components that can be loaded via a 
 | Component | comp_filters    | Displays filters for sorting, searching, etc...                            |
 | Component | comp_table      | Displays DB table array content in a responsive table view                 |
 
+---
+
 ## PUBLIC FEATURES
 
 COMING SOON...
@@ -55,11 +59,11 @@ COMING SOON...
 
 ## CUSTOMIZING
 
-To customize the plugin, Infinite looks for a directory labeled "infinite-child" in your current theme or child theme directory. If you are using a pre-built theme that is managed by a third-party, it is recommended that you create a child theme that references your main theme. This will prevent your customizations from being deleted when the main theme gets an update.
+To customize the plugin, Infinite looks for a directory labeled "infinite" in your current theme or child theme directory. If you are using a pre-built theme that is managed by a third-party, it is recommended that you create a child theme that references your main theme. This will prevent your customizations from being deleted when the main theme gets an update.
 
-Depending on your needs, your "infinite-child" directory can be structured as follows:
+Depending on your needs, your "infinite" directory can be structured as follows:
 
-- infinite-child
+- infinite
   - admin
     - css
     - images
@@ -87,7 +91,7 @@ Depending on your needs, your "infinite-child" directory can be structured as fo
 - [x] Setup build process to generate a release plugin zip file for updates
 - [x] Enable adding additional dynamic settings to initial view and dynamic config views - saves to WP options
 - [ ] Create standard components for settings fields
-- [x]: Allow for dynamically creating tables, roles, caps, and options while the plugin is active
+- [x] Allow for dynamically creating tables, roles, caps, and options while the plugin is active
 - [ ] Create a dynamic form component that populates form fields based on db tables config
 - [ ] Better way of calling/handling/including page/template/component files
 

@@ -69,10 +69,10 @@ class Infinite_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/infinite-admin.css', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/css/infinite-admin.css'), 'all');
-
-		if (file_exists(get_stylesheet_directory() . '/infinite-child/admin/css/infinite-admin.css')) {
-			wp_enqueue_style($this->plugin_name . '-child', get_stylesheet_directory_uri() . '/infinite-child/admin/css/infinite-admin.css', [], filemtime(get_stylesheet_directory() . '/infinite-child/admin/css/infinite-admin.css'), 'all');
+		if (file_exists(get_stylesheet_directory() . '/infinite/admin/css/infinite-admin-custom.css')) {
+			wp_enqueue_style($this->plugin_name . '-custom', get_stylesheet_directory_uri() . '/infinite/admin/css/infinite-admin-custom.css', [], filemtime(get_stylesheet_directory() . '/infinite/admin/css/infinite-admin-custom.css'), 'all');
+		} else {
+			wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/infinite-admin.css', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/css/infinite-admin.css'), 'all');
 		}
 	}
 
@@ -94,11 +94,10 @@ class Infinite_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/infinite-admin.js', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/js/infinite-admin.js'), false);
 
-		if (file_exists(get_stylesheet_directory() . '/infinite-child/admin/js/infinite-admin.js')) {
-			wp_enqueue_script($this->plugin_name . '-child', get_stylesheet_directory_uri() . '/infinite-child/admin/js/infinite-admin.js', [], filemtime(get_stylesheet_directory() . '/infinite-child/admin/js/infinite-admin.js'), false);
+		if (file_exists(get_stylesheet_directory() . '/infinite/admin/js/infinite-admin-custom.js')) {
+			wp_enqueue_script($this->plugin_name . '-custom', get_stylesheet_directory_uri() . '/infinite/admin/js/infinite-admin-custom.js', [], filemtime(get_stylesheet_directory() . '/infinite/admin/js/infinite-admin-custom.js'), false);
 		}
 	}
 
@@ -112,7 +111,7 @@ class Infinite_Admin {
 			$current = (array_key_exists('page', $_GET)) ? $_GET['page'] : false;
 
 			if ($this->get_screen($current)) {
-				$classes .= ' infinite-admin';
+				$classes .= ' infinite-css';
 			}
 		}
 
@@ -185,9 +184,11 @@ class Infinite_Admin {
 		}
 
 		// Handle settings screen views
-		if (defined('INF_SETTINGS') && $_GET['page'] == 'infinite-settings') {
-			if (property_exists(INF_SETTINGS, 'views')) {
-				return INF_SETTINGS->views;
+		if (defined('INF_SETTINGS')) {
+			if ($_GET['page'] == INF_SETTINGS->menu->slug) {
+				if (property_exists(INF_SETTINGS, 'views')) {
+					return INF_SETTINGS->views;
+				}
 			}
 		}
 
@@ -202,6 +203,8 @@ class Infinite_Admin {
 	public function get_current_view() {
 		$current_view = (isset($_GET['view'])) ? $_GET['view'] : false;
 		$views = $this->get_views();
+
+		// [ ] Need to run permissions checks on each view and prevent display if not permitted
 
 		if ($views) {
 			foreach ($views as $view) {
@@ -249,10 +252,27 @@ class Infinite_Admin {
 	 * 
 	 */
 	public function get_admin_logo() {
-		if (file_exists(get_stylesheet_directory() . '/infinite-child/admin/images/admin_logo.svg')) {
-			$file = file_get_contents(get_stylesheet_directory() . '/infinite-child/admin/images/admin_logo.svg');
+		if (file_exists(get_stylesheet_directory() . '/infinite/admin/images/admin_logo.svg')) {
+			$file = file_get_contents(get_stylesheet_directory() . '/infinite/admin/images/admin_logo.svg');
 		} else {
 			$file = file_get_contents(plugin_dir_path(__FILE__) . '/images/admin_logo.svg');
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Get the SVG code for the admin icon
+	 *
+	 * @since      1.0.0
+	 * @package    Infinite
+	 * 
+	 */
+	public function get_admin_icon() {
+		if (file_exists(get_stylesheet_directory() . '/infinite/admin/images/admin_icon.svg')) {
+			$file = file_get_contents(get_stylesheet_directory() . '/infinite/admin/images/admin_icon.svg');
+		} else {
+			$file = file_get_contents(plugin_dir_path(__FILE__) . '/images/admin_icon.svg');
 		}
 
 		return $file;
@@ -264,7 +284,7 @@ class Infinite_Admin {
 	 * @since    1.0.0
 	 */
 	public function get_menu_icon_svg() {
-		return base64_encode($this->get_admin_logo());
+		return base64_encode($this->get_admin_icon());
 	}
 
 	/**
@@ -321,6 +341,8 @@ class Infinite_Admin {
 		$screen = $this->get_current_screen();
 		$views = $this->get_views();
 		$current_view = $this->get_current_view();
+
+		// [ ] Need to run permissions checks on each view and prevent display if not permitted
 
 		if ($views) {
 			$current = $current_view->slug;
@@ -413,9 +435,9 @@ class Infinite_Admin {
 ?>
 		<a href="<?php echo $link; ?>" data-nonce="<?php echo $nonce; ?>" class="infinite-button btn-primary">Seed the DB</a>
 <?php
-		// TODO: Scope out option types (button, toggle, slider, text, number, select, etc.)
-		// TODO: Option types should be components
-		// TODO: Each page should be wrapped in a form with a submit button for now.
-		// TODO: Are configs available to the activator/deactivator class??? If so, update those.
+		// [ ] Scope out option types (button, toggle, slider, text, number, select, etc.)
+		// [ ] Option types should be components
+		// [ ] Each page should be wrapped in a form with a submit button for now.
+		// [ ] Are configs available to the activator/deactivator class??? If so, update those.
 	}
 }
