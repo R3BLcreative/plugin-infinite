@@ -46,7 +46,7 @@ class Infinite_Updater {
 		$this->version = INFINITE_VERSION;
 		$this->plugin_name = INFINITE_SLUG;
 		$this->cache_key = $this->plugin_name . '_updater';
-		$this->cache_allowed = false;
+		$this->cache_allowed = true;
 
 		add_filter('plugins_api', [$this, 'info'], 20, 3);
 		add_filter('site_transient_update_plugins', [$this, 'update']);
@@ -64,7 +64,7 @@ class Infinite_Updater {
 		if (false === $remote || !$this->cache_allowed) {
 			$cache_buster = rand(100, 5000);
 			$remote = wp_remote_get(
-				'https://r3blcreative.com/r3bl-updates/plugins/infinite/info.json?v=' . $cache_buster,
+				'https://r3blcreative.com/r3bl-updates/plugins/infinite-plugin/info.json?v=' . $cache_buster,
 				[
 					'timeout' => 10,
 					'headers' => [

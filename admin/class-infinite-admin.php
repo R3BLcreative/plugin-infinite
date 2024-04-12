@@ -94,10 +94,10 @@ class Infinite_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/infinite-admin.js', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/js/infinite-admin.js'), false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/infinite-admin.js', [], filemtime(plugin_dir_path(dirname(__FILE__)) . 'admin/js/infinite-admin.js'), ['in_footer' => true]);
 
 		if (file_exists(get_stylesheet_directory() . '/infinite/admin/js/infinite-admin-custom.js')) {
-			wp_enqueue_script($this->plugin_name . '-custom', get_stylesheet_directory_uri() . '/infinite/admin/js/infinite-admin-custom.js', [], filemtime(get_stylesheet_directory() . '/infinite/admin/js/infinite-admin-custom.js'), false);
+			wp_enqueue_script($this->plugin_name . '-custom', get_stylesheet_directory_uri() . '/infinite/admin/js/infinite-admin-custom.js', [], filemtime(get_stylesheet_directory() . '/infinite/admin/js/infinite-admin-custom.js'), ['in_footer' => true]);
 		}
 	}
 

@@ -16,7 +16,7 @@
  * Plugin Name:       Infinite
  * Plugin URI:        https://r3blcreative.com
  * Description:       A plugin boilerplate for creating a custom backend admin portal and frontend user portal.
- * Version:           1.0.2
+ * Version:           1.0.7
  * Author:            R3BL Creative - James Cook
  * Author URI:        https://r3blcreative.com/
  * License:           GPL-2.0+
@@ -33,7 +33,7 @@ if (!defined('WPINC')) {
 /**
  * Current plugin version.
  */
-define('INFINITE_VERSION', '1.0.2');
+define('INFINITE_VERSION', '1.0.3');
 
 /**
  * Plugin name/slug.

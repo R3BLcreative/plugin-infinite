@@ -9,26 +9,26 @@ module.exports = function (grunt) {
 					mode: 'zip',
 				},
 				files: [
-					{ src: './admin/css/**', dest: 'infinite-plugin/' },
-					{ src: './admin/images/**', dest: 'infinite-plugin/' },
-					{ src: './admin/js/**', dest: 'infinite-plugin/' },
-					{ src: './admin/partials/**', dest: 'infinite-plugin/' },
-					{ src: './admin/class-infinite-admin.php', dest: 'infinite-plugin/' },
-					{ src: './admin/index.php', dest: 'infinite-plugin/' },
-					{ src: './icons/**', dest: 'infinite-plugin/' },
-					{ src: './includes/**', dest: 'infinite-plugin/' },
-					{ src: './languages/**', dest: 'infinite-plugin/' },
-					{ src: './public/css/**', dest: 'infinite-plugin/' },
-					{ src: './public/images/**', dest: 'infinite-plugin/' },
-					{ src: './public/js/**', dest: 'infinite-plugin/' },
-					{ src: './public/partials/**', dest: 'infinite-plugin/' },
-					{ src: './public/class-infinite-public.php', dest: 'infinite-plugin/' },
-					{ src: './public/index.php', dest: 'infinite-plugin/' },
-					{ src: './README.md', dest: 'infinite-plugin/' },
-					{ src: './index.php', dest: 'infinite-plugin/' },
-					{ src: './infinite-plugin.php', dest: 'infinite-plugin/' },
-					{ src: './uninstall.php', dest: 'infinite-plugin/' },
-					{ src: './LICENSE.txt', dest: 'infinite-plugin/' },
+					{ src: './admin/css/**', dest: '<%= pkg.name %>/' },
+					{ src: './admin/images/**', dest: '<%= pkg.name %>/' },
+					{ src: './admin/js/**', dest: '<%= pkg.name %>/' },
+					{ src: './admin/partials/**', dest: '<%= pkg.name %>/' },
+					{ src: './admin/class-infinite-admin.php', dest: '<%= pkg.name %>/' },
+					{ src: './admin/index.php', dest: '<%= pkg.name %>/' },
+					{ src: './icons/**', dest: '<%= pkg.name %>/' },
+					{ src: './includes/**', dest: '<%= pkg.name %>/' },
+					{ src: './languages/**', dest: '<%= pkg.name %>/' },
+					{ src: './public/css/**', dest: '<%= pkg.name %>/' },
+					{ src: './public/images/**', dest: '<%= pkg.name %>/' },
+					{ src: './public/js/**', dest: '<%= pkg.name %>/' },
+					{ src: './public/partials/**', dest: '<%= pkg.name %>/' },
+					{ src: './public/class-infinite-public.php', dest: '<%= pkg.name %>/' },
+					{ src: './public/index.php', dest: '<%= pkg.name %>/' },
+					{ src: './README.md', dest: '<%= pkg.name %>/' },
+					{ src: './index.php', dest: '<%= pkg.name %>/' },
+					{ src: './infinite-plugin.php', dest: '<%= pkg.name %>/' },
+					{ src: './uninstall.php', dest: '<%= pkg.name %>/' },
+					{ src: './LICENSE.txt', dest: '<%= pkg.name %>/' },
 				],
 			},
 		},
@@ -54,43 +54,45 @@ module.exports = function (grunt) {
 	grunt.registerTask('manifest', function (key, value) {
 		// Get config package.json
 		var pkg = grunt.config.get('pkg');
-		var wp = pkg['wordpress'];
 
 		// Set changing props & default props
 		var website = 'https://r3blcreative.com';
 		var rootPath = website + '/r3bl-updates/plugins/' + pkg['name'] + '/';
 
-		wp['name'] = pkg['title'];
-		wp['slug'] = pkg['name'];
-		wp['added'] = pkg['created'];
-		wp['version'] = pkg['version'];
-		wp['requires'] = '6.4.3';
-		wp['tested'] = '6.4.3';
-		wp['requires_php'] = '8.0.0';
-		wp['download_url'] = rootPath + pkg['name'] + '.zip?v=' + pkg['version'];
-		wp['author'] = "<a href='" + website + "' target='_blank'>James Cook</a>";
-		wp['author_profile'] = website;
-		wp['donate_link'] = website;
-		wp['homepage'] = website;
-
-		wp['sections']['description'] = pkg['description'];
-
-		wp['banners']['low'] = rootPath + 'banner-772x250.jpg';
-		wp['banners']['high'] = rootPath + 'banner-1544x500.jpg';
-
-		// Set to current date time
+		// Setup WP info
 		var date = new Date();
-		wp['last_updated'] =
-			date.getFullYear() +
-			'-' +
-			('0' + (date.getMonth() + 1)).slice(-2) +
-			'-' +
-			('0' + date.getDate()).slice(-2) +
-			' ' +
-			date.getHours() +
-			':' +
-			date.getMinutes() +
-			':00';
+		var wp = {
+			name: pkg['title'],
+			slug: pkg['name'],
+			version: pkg['version'],
+			added: pkg['created'],
+			last_updated:
+				date.getFullYear() +
+				'-' +
+				('0' + (date.getMonth() + 1)).slice(-2) +
+				'-' +
+				('0' + date.getDate()).slice(-2) +
+				' ' +
+				date.getHours() +
+				':' +
+				date.getMinutes() +
+				':00',
+			requires: '6.4.3',
+			tested: '6.4.3',
+			requires_php: '8.0.0',
+			download_url: rootPath + pkg['name'] + '.zip?v=' + pkg['version'],
+			author: "<a href'" + website + "' target='_blank'>James Cook</a>",
+			author_profile: website,
+			donate_link: website,
+			homepage: website,
+			sections: {
+				description: pkg['description'],
+			},
+			banners: {
+				low: rootPath + 'banner-772x250.jpg',
+				high: rootPath + 'banner-1544x500.jpg',
+			},
+		};
 
 		// Path to write/update file
 		var infoJsonFile = './dist/info.json';
