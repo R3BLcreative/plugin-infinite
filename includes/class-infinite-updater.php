@@ -62,9 +62,8 @@ class Infinite_Updater {
 		$remote = get_transient($this->cache_key); // Uninstall should handle transient removal
 
 		if (false === $remote || !$this->cache_allowed) {
-			$cache_buster = rand(100, 5000);
 			$remote = wp_remote_get(
-				'https://r3blcreative.com/r3bl-updates/plugins/infinite-plugin/info.json?v=' . $cache_buster,
+				'https://github.com/R3BLcreative/plugin-infinite/releases/tag/v' . $this->version . '/info.json',
 				[
 					'timeout' => 10,
 					'headers' => [
