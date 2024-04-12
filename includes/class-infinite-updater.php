@@ -63,7 +63,7 @@ class Infinite_Updater {
 
 		if (false === $remote || !$this->cache_allowed) {
 			$remote = wp_remote_get(
-				'https://github.com/R3BLcreative/plugin-infinite/releases/tag/v' . $this->version . '/info.json',
+				'https://github.com/R3BLcreative/plugin-infinite/releases/latest/info.json',
 				[
 					'timeout' => 10,
 					'headers' => [

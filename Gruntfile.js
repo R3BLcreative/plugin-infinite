@@ -57,7 +57,7 @@ module.exports = function (grunt) {
 
 		// Set changing props & default props
 		var website = 'https://github.com/R3BLcreative';
-		var rootPath = website + '/plugin-infinite/releases/tag/v' + pkg['version'] + '/';
+		var rootPath = website + '/plugin-infinite/releases/latest/';
 
 		// Setup WP info
 		var date = new Date();
