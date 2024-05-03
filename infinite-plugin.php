@@ -24,7 +24,7 @@ require 'plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
-	'https://github.com/R3BLcreative/plugin-infinite',
+	'https://github.com/R3BLcreative/plugin-infinite/',
 	__FILE__,
 	'plugin-infinite'
 );

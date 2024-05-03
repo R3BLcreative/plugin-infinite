@@ -175,7 +175,6 @@ class Infinite {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-infinite-public.php';
 
 		$this->loader = new Infinite_Loader();
-		$this->updater = new Infinite_Updater();
 
 		/**
 		 * This code reads the extensions directory and loads the files 
