@@ -18,6 +18,7 @@ module.exports = function (grunt) {
 					{ src: './icons/**', dest: '<%= pkg.name %>/' },
 					{ src: './includes/**', dest: '<%= pkg.name %>/' },
 					{ src: './languages/**', dest: '<%= pkg.name %>/' },
+					{ src: './plugin-update-checker/**', dest: '<%= pkg.name %>/' },
 					{ src: './public/css/**', dest: '<%= pkg.name %>/' },
 					{ src: './public/images/**', dest: '<%= pkg.name %>/' },
 					{ src: './public/js/**', dest: '<%= pkg.name %>/' },
