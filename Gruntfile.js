@@ -42,10 +42,6 @@ module.exports = function (grunt) {
 							pattern: '<%= pkg.last_version %>',
 							replacement: '<%= pkg.version %>',
 						},
-						{
-							pattern: "'<%= pkg.last_version %>'",
-							replacement: "'<%= pkg.version %>'",
-						},
 					],
 				},
 			},
