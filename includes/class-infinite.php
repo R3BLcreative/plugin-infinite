@@ -93,11 +93,6 @@ class Infinite {
 			if ($v != INF_ROLES->version) $this->run_config_update('INF_ROLES');
 		}
 
-		if (defined('INF_SETTINGS')) {
-			$v = get_option('INF_SETTINGS');
-			if ($v != INF_SETTINGS->version) $this->run_config_update('INF_SETTINGS');
-		}
-
 		if (defined('INF_TABLES')) {
 			$v = get_option('INF_TABLES');
 			if ($v != INF_TABLES->version) $this->run_config_update('INF_TABLES');
@@ -122,9 +117,6 @@ class Infinite {
 				break;
 			case 'INF_ROLES':
 				$activator->custom_roles();
-				break;
-			case 'INF_SETTINGS':
-				$activator->custom_options();
 				break;
 			case 'INF_TABLES':
 				// This handles the creation of new tables and updating table structures to the config
@@ -160,11 +152,6 @@ class Infinite {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/infinite-helpers.php';
 
 		/**
-		 * Load updated class to enable one-click and automatic plugin updates
-		 */
-		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-infinite-updater.php';
-
-		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
@@ -189,6 +176,24 @@ class Infinite {
 
 		$this->loader = new Infinite_Loader();
 		$this->updater = new Infinite_Updater();
+
+		/**
+		 * This code reads the extensions directory and loads the files 
+		 * located in it for auto-loading of extensions.
+		 */
+		if (file_exists(get_stylesheet_directory() . '/infinite/extensions')) {
+			if ($handle = opendir(get_stylesheet_directory() . '/infinite/extensions')) {
+				while (false !== ($file = readdir($handle))) {
+					if ('.' === $file) continue;
+					if ('..' === $file) continue;
+					if ('index.php' === $file) continue;
+
+					require_once get_stylesheet_directory() . '/infinite/extensions/' . $file;
+				}
+
+				closedir($handle);
+			}
+		}
 	}
 
 	/**

@@ -133,11 +133,6 @@ class Infinite_Admin {
 			$screens[] = INF_ADMIN->menu;
 		}
 
-		// Add menu config to screens to handle the settings screen
-		if (defined('INF_SETTINGS')) {
-			$screens[] = INF_SETTINGS->menu;
-		}
-
 		if (!empty($screens)) return $screens;
 
 		return false;
@@ -183,15 +178,6 @@ class Infinite_Admin {
 			return $screen->views;
 		}
 
-		// Handle settings screen views
-		if (defined('INF_SETTINGS')) {
-			if ($_GET['page'] == INF_SETTINGS->menu->slug) {
-				if (property_exists(INF_SETTINGS, 'views')) {
-					return INF_SETTINGS->views;
-				}
-			}
-		}
-
 		return false;
 	}
 
@@ -234,12 +220,6 @@ class Infinite_Admin {
 			// Add submenu pages
 			foreach (INF_ADMIN->screens as $screen) {
 				add_submenu_page($menu->slug, $screen->page_title, $screen->menu_title, $screen->caps, $screen->slug, [$this, 'infinite_page'], $screen->order);
-			}
-
-			// Add settings submenu page
-			if (defined('INF_SETTINGS')) {
-				$smenu = INF_SETTINGS->menu;
-				add_submenu_page($menu->slug, $smenu->page_title, $smenu->menu_title, $smenu->caps, $smenu->slug, [$this, 'infinite_settings'], 100);
 			}
 		}
 	}
@@ -296,17 +276,6 @@ class Infinite_Admin {
 		$screen = $this->get_current_screen();
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_dashboard.php';
-	}
-
-	/**
-	 * Display the settings page.
-	 *
-	 * @since    1.0.0
-	 */
-	public function infinite_settings() {
-		$screen = $this->get_current_screen();
-
-		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/admin_settings.php';
 	}
 
 	/**
@@ -401,43 +370,5 @@ class Infinite_Admin {
 		$view = $current_view->slug;
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_filters.php';
-	}
-
-	/**
-	 * Get the settings options for the current settings view
-	 *
-	 * @since    1.0.0
-	 */
-	private function get_options($view) {
-		if (defined('INF_SETTINGS') && property_exists(INF_SETTINGS, 'options')) {
-			foreach (INF_SETTINGS->options as $option) {
-				if ($option->view == $view) $options[] = $option;
-			}
-			return $options;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get the settings options for the settings view
-	 *
-	 * @since    1.0.0
-	 */
-	public function display_settings() {
-		$current_view = $this->get_current_view();
-		$view = $current_view->slug;
-		$options = $this->get_options($view);
-
-		print_r($options);
-		$nonce = wp_create_nonce('customers_seeder_nonce');
-		$link = admin_url('admin-ajax.php?action=customers_db_seeder&nonce=' . $nonce);
-?>
-		<a href="<?php echo $link; ?>" data-nonce="<?php echo $nonce; ?>" class="infinite-button btn-primary">Seed the DB</a>
-<?php
-		// [ ] Scope out option types (button, toggle, slider, text, number, select, etc.)
-		// [ ] Option types should be components
-		// [ ] Each page should be wrapped in a form with a submit button for now.
-		// [ ] Are configs available to the activator/deactivator class??? If so, update those.
 	}
 }

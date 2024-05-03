@@ -52,3 +52,37 @@ function inf_is_selected($value, $key, $isDefault = false) {
 
 	return false;
 }
+
+function inf_log($message, $payload = false, $log = 'admin') {
+	// Check if logging is turned on
+	if (INF_LOG) {
+		// Set filename to today timestamp
+		$filename = strtotime('TODAY') . '_' . $log . '.log';
+
+		// Set paths to log files
+		$the_path = get_stylesheet_directory() . '/infinite/logs';
+
+		// Generate a timestamp for new entry
+		$entry_timestamp = date('m/d/Y h:i:s A', strtotime('NOW'));
+
+		// Generate entry
+		$entry = $entry_timestamp . "\r\n";
+		$entry .= $message . "\r\n";
+		$entry .= ($payload) ? json_encode($payload) . "\r\n" : '';
+
+		// Check if file exists
+		if (file_exists($the_path . '/' . $filename)) {
+			// Get current file content
+			$entry .= "\r\n\r\n";
+			$entry .= file_get_contents($the_path . '/' . $filename);
+		}
+
+		// Create logs directory if it doesn't exist
+		if (!is_dir($the_path)) {
+			mkdir($the_path);
+		}
+
+		// Write to file
+		file_put_contents($the_path . '/' . $filename, $entry);
+	}
+}

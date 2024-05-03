@@ -25,15 +25,6 @@ if (!defined('WP_UNINSTALL_PLUGIN')) exit;
 // Plugin name/slug
 $plugin_name = plugin_basename(__DIR__);
 
-// Remove custom options
-if (defined('INF_SETTINGS') && property_exists(INF_SETTINGS, 'options')) {
-	foreach (INF_SETTINGS->options as $option) {
-		if (property_exists($option, 'save') && $option->save === true) {
-			delete_option($option->slug);
-		}
-	}
-}
-
 // Remove transients
 $transients = [
 	'_updater'

@@ -26,9 +26,6 @@ class Infinite_Activator {
 		// Create custom roles/caps
 		self::custom_roles();
 
-		// Add custom settings to WP options table
-		self::custom_options();
-
 		// Add current configs to wp_options in order to compare and update on the fly without activation
 		self::config_options();
 	}
@@ -95,25 +92,6 @@ class Infinite_Activator {
 	}
 
 	/**
-	 * Add custom settings to WP Options table
-	 * 
-	 * Long description
-	 * 
-	 * @since    1.0.0
-	 */
-	public static function custom_options() {
-		if (defined('INF_SETTINGS') && property_exists(INF_SETTINGS, 'options')) {
-			foreach (INF_SETTINGS->options as $option) {
-				if (property_exists($option, 'save') && $option->save === true) {
-					$default = (property_exists($option, 'default')) ? $option->default : '';
-
-					add_option($option->slug, $default);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Add configs to WP Options table
 	 * 
 	 * Long description
@@ -142,14 +120,6 @@ class Infinite_Activator {
 				add_option('INF_ROLES', INF_ROLES->version);
 			} else {
 				update_option('INF_ROLES', INF_ROLES->version);
-			}
-		}
-
-		if (defined('INF_SETTINGS')) {
-			if (!get_option('INF_SETTINGS')) {
-				add_option('INF_SETTINGS', INF_SETTINGS->version);
-			} else {
-				update_option('INF_SETTINGS', INF_SETTINGS->version);
 			}
 		}
 
