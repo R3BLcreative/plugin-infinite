@@ -28,7 +28,8 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 	__FILE__,
 	'plugin-infinite'
 );
-$myUpdateChecker->setBranch('production');
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+// $myUpdateChecker->setBranch('production');
 $myUpdateChecker->setAuthentication('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');
 
 /**
