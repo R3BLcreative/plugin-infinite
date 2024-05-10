@@ -183,9 +183,14 @@ class Infinite {
 		if (file_exists(get_stylesheet_directory() . '/infinite/extensions')) {
 			if ($handle = opendir(get_stylesheet_directory() . '/infinite/extensions')) {
 				while (false !== ($file = readdir($handle))) {
+					// Skip os files and 
 					if ('.' === $file) continue;
 					if ('..' === $file) continue;
+					if ('.DS_Store' === $file) continue;
 					if ('index.php' === $file) continue;
+
+					// Failsafe skip files that don't begin with 'class-'
+					if (strpos($file, 'class-') !== 0) continue;
 
 					require_once get_stylesheet_directory() . '/infinite/extensions/' . $file;
 				}
