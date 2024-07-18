@@ -1,0 +1,6 @@
+{
+	"tailwindCSS.experimental.configFile": {
+		"tw-admin.config.js": "admin/**",
+		"tw-public.config.js": "public/**"
+	}
+}
