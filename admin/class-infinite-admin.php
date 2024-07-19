@@ -371,4 +371,17 @@ class Infinite_Admin {
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/comp_filters.php';
 	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function localize_script() {
+		// Localize ajaxurl for javascript
+		$nonce = wp_create_nonce('ajax_infinite_nonce');
+		wp_localize_script($this->plugin_name, 'infinite_ajax_obj', [
+			'ajaxurl' => admin_url('admin-ajax.php?nonce=' . $nonce),
+		]);
+	}
 }

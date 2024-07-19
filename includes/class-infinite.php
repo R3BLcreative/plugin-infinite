@@ -229,6 +229,7 @@ class Infinite {
 
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'localize_script');
 		$this->loader->add_action('admin_menu', $plugin_admin, 'register_admin_pages');
 		$this->loader->add_filter('admin_body_class', $plugin_admin, 'admin_body_class');
 	}
