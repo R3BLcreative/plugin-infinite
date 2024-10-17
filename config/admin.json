@@ -1,0 +1,69 @@
+{
+	"version": "100",
+	"menu": {
+		"page_title": "Dashboard",
+		"menu_title": "Infinite Admin",
+		"caps": "manage_infinite",
+		"slug": "infinite-dashboard",
+		"order": 3,
+		"description": ""
+	},
+	"screens": [
+		{
+			"page_title": "Students",
+			"menu_title": "Students",
+			"caps": "manage_infinite",
+			"slug": "infinite-students",
+			"order": 2,
+			"description": "",
+			"views": [
+				{
+					"slug": "student-list",
+					"menu_title": "List",
+					"view_title": "Student List",
+					"main_view": true,
+					"visible": true,
+					"class": "INF_Students",
+					"method": "get_list_view"
+				},
+				{
+					"slug": "student-details",
+					"menu_title": "Details",
+					"view_title": "Student Details",
+					"main_view": false,
+					"visible": false,
+					"class": "INF_Students",
+					"method": "get_details_view"
+				}
+			]
+		},
+		{
+			"page_title": "Rosters",
+			"menu_title": "Rosters",
+			"caps": "manage_infinite",
+			"slug": "infinite-rosters",
+			"order": 4,
+			"description": "",
+			"views": [
+				{
+					"slug": "roster-list",
+					"menu_title": "List",
+					"view_title": "Roster List",
+					"main_view": true,
+					"visible": true,
+					"class": "INF_Rosters",
+					"method": "get_list_view"
+				},
+				{
+					"slug": "roster-details",
+					"menu_title": "Details",
+					"view_title": "Roster Details",
+					"main_view": false,
+					"visible": false,
+					"class": "INF_Rosters",
+					"method": "get_details_view"
+				}
+			]
+		}
+	]
+}

@@ -5,11 +5,11 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       https://r3blcreative.com
+ * @link       https://thealloymarket.com
  * @since      1.0.0
  *
- * @package    Infinite
- * @subpackage Infinite/admin/partials
+ * @package    alloy-ap
+ * @subpackage alloy-ap/admin/partials
  */
 
 $inactiveCss = 'px-3 py-2 transition-colors ease-in-out text-body fill-body hover:bg-secondary-50 hover:text-secondary-700 hover:fill-secondary-700 h-full flex items-center justify-center';
@@ -32,7 +32,7 @@ if ($pages <= 5) {
 }
 ?>
 
-<nav id="infinite-pagination" class="mt-10 flex flex-col items-center gap-5">
+<nav id="infinite-pagination" class="mt-3 flex flex-col items-center gap-x-5 gap-y-2">
 	<div class="w-fit flex flex-row items-stretch justify-center gap-3">
 
 		<!-- SIMPLE NAV - LEFT -->
@@ -46,7 +46,7 @@ if ($pages <= 5) {
 		</div>
 
 		<!-- PAGED NAV -->
-		<div class="tablet:hidden w-fit flex flex-row items-center justify-center gap-3 border border-surface-500 bg-surface-800 text-body-50 font-body font-normal shadow-lg rounded-lg overflow-hidden px-6">
+		<div class="mobile:hidden laptop:flex flex-row items-center justify-center gap-3 w-fit border border-surface-500 bg-surface-800 text-body-50 font-body font-normal shadow-lg rounded-lg overflow-hidden px-6">
 			<?php for ($i = $min; $i <= $max; $i++) : ?>
 				<a href="<?php echo add_query_arg('pg', $i, get_the_permalink()); ?>" class="<?php echo ($pg == $i) ? $activeCss : $inactiveCss; ?>">
 					<?php echo $i; ?>

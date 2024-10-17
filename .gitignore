@@ -1,2 +1,5 @@
 node_modules
 vendor
+logs
+.DS_Store
+./wp-content/debug.log

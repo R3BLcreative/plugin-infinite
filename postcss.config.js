@@ -3,7 +3,7 @@ module.exports = {
 		'tailwindcss/nesting': {},
 		tailwindcss: {},
 		'postcss-prefix-selector': {
-			prefix: 'body.infinite-css',
+			prefix: '.inf-css',
 		},
 		autoprefixer: {},
 	},

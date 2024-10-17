@@ -35,18 +35,18 @@ $myUpdateChecker->setAuthentication('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');
 /**
  * Current plugin version.
  */
-define('INFINITE_VERSION', '1.1.2');
+define('INF_VERSION', '1.1.2');
 
 /**
  * Plugin name/slug.
  */
-define('INFINITE_SLUG', plugin_basename(__DIR__));
+define('INF_SLUG', plugin_basename(__DIR__));
 
 
 /**
  * Load configs from theme directory
  */
-$config_path = get_stylesheet_directory() . '/infinite/config/';
+$config_path = plugin_dir_path(__FILE__) . 'config/';
 
 // ADMIN CONFIG
 if (file_exists($config_path . 'admin.json')) {
@@ -74,20 +74,20 @@ if (file_exists($config_path . 'roles.json')) {
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-infinite-activator.php
+ * This action is documented in includes/class-inf-activator.php
  */
 function activate_infinite() {
-	require_once plugin_dir_path(__FILE__) . 'includes/class-infinite-activator.php';
-	Infinite_Activator::activate();
+	require_once plugin_dir_path(__FILE__) . 'includes/class-inf-activator.php';
+	INF_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-infinite-deactivator.php
+ * This action is documented in includes/class-inf-deactivator.php
  */
 function deactivate_infinite() {
-	require_once plugin_dir_path(__FILE__) . 'includes/class-infinite-deactivator.php';
-	Infinite_Deactivator::deactivate();
+	require_once plugin_dir_path(__FILE__) . 'includes/class-inf-deactivator.php';
+	INF_Deactivator::deactivate();
 }
 
 register_activation_hook(__FILE__, 'activate_infinite');
@@ -97,28 +97,7 @@ register_deactivation_hook(__FILE__, 'deactivate_infinite');
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path(__FILE__) . 'includes/class-infinite.php';
-
-/**
- * This code reads the extensions directory and loads the files 
- * located in it for auto-loading of extensions.
- * 
- * commented out because this code was moved inside load_dependencies method 
- * inside the class-infinite.php file.
- */
-// if (file_exists(get_stylesheet_directory() . '/infinite/extensions')) {
-// 	if ($handle = opendir(get_stylesheet_directory() . '/infinite/extensions')) {
-// 		while (false !== ($file = readdir($handle))) {
-// 			if ('.' === $file) continue;
-// 			if ('..' === $file) continue;
-// 			if ('index.php' === $file) continue;
-
-// 			require_once get_stylesheet_directory() . '/infinite/extensions/' . $file;
-// 		}
-
-// 		closedir($handle);
-// 	}
-// }
+require plugin_dir_path(__FILE__) . 'includes/class-inf.php';
 
 /**
  * Handle logging and debugging
@@ -140,7 +119,7 @@ if (function_exists('get_field')) {
  */
 function run_infinite() {
 
-	$plugin = new Infinite();
+	$plugin = new INF();
 	$plugin->run();
 }
 run_infinite();

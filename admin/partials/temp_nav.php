@@ -8,8 +8,8 @@
  * @link       https://r3blcreative.com
  * @since      1.0.0
  *
- * @package    Infinite
- * @subpackage Infinite/admin/partials
+ * @package    infinite
+ * @subpackage infinite/admin/partials
  */
 
 $inactiveCss = 'px-6 py-4 transition-all ease-in-out opacity-50 border-t border-b border-transparent hover:border-surface-50 hover:opacity-100 hover:text-body-50 focus:shadow-none focus:outline-0 cursor-pointer';

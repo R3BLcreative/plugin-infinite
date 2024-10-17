@@ -8,19 +8,19 @@
  * @link       https://r3blcreative.com
  * @since      1.0.0
  *
- * @package    Infinite
- * @subpackage Infinite/admin/partials
+ * @package    infinite
+ * @subpackage infinite/admin/partials
  */
 ?>
 
 <div id="infinite-wrap" class="">
-	<!-- Infinite Header -->
+	<!-- Header -->
 	<?php $this->infinite_header(); ?>
 
-	<!-- Infinite Nav -->
+	<!-- Nav -->
 	<?php $this->infinite_nav(); ?>
 
-	<!-- Infinite Content -->
+	<!-- Content -->
 	<main id="infinite-content" class="">
 		<?php $this->infinite_content(); ?>
 	</main>

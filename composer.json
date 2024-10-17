@@ -1,5 +1,7 @@
 {
-    "require": {
-        "fakerphp/faker": "^1.23"
-    }
+	"require": {
+		"stripe/stripe-php": "^13.14",
+		"setasign/fpdf": "^1.8",
+		"setasign/fpdi": "^2.5"
+	}
 }

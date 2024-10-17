@@ -8,8 +8,8 @@
  * @link       https://r3blcreative.com
  * @since      1.0.0
  *
- * @package    Infinite
- * @subpackage Infinite/admin/partials
+ * @package    infinite
+ * @subpackage infinite/admin/partials
  */
 ?>
 
@@ -22,5 +22,9 @@
 		<h1 class="text-secondary mobile:!text-4xl laptop:!text-5xl !font-display font-extralight tracking-widest">
 			<?php echo $screen->page_title; ?>
 		</h1>
+		<!-- <div class="w-10 bg-surface-100 h-[1px] mobile:hidden tablet:block"></div>
+		<p class="text-sm text-body !font-body tracking-wider block">
+			<?php echo $screen->description; ?>
+		</p> -->
 	</div>
 </header>
