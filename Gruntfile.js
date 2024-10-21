@@ -9,6 +9,7 @@ module.exports = function (grunt) {
 					mode: 'zip',
 				},
 				files: [
+					{ src: './acf-json/**', dest: '<%= pkg.name %>/' },
 					{ src: './admin/css/**', dest: '<%= pkg.name %>/' },
 					{ src: './admin/images/**', dest: '<%= pkg.name %>/' },
 					{ src: './admin/js/**', dest: '<%= pkg.name %>/' },
