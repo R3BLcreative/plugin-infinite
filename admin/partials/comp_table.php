@@ -14,7 +14,7 @@
 
 // [ ] Responsive styles/layout
 
-$thCss = 'px-3 py-3 font-semibold text-lg tracking-wider text-primary';
+$thCss = 'px-3 py-5 font-semibold text-lg tracking-wider text-primary sticky top-0 border-b border-b-secondary-100 bg-surface-800 shadow-lg';
 $tdCss = 'px-3 py-5';
 ?>
 <!-- FILTERS -->
@@ -36,39 +36,37 @@ $INF->infinite_filters_bar([
 <!-- BULK ACTIONS -->
 <?php $INF->infinite_bulk_bar($bulk_bar_data); ?>
 
-<table class="w-full rounded-md overflow-hidden">
-	<thead class="border-b border-b-secondary-100 mobile:hidden tablet:table-header-group bg-surface-800 shadow-lg">
-		<tr class="">
-			<?php foreach ($cols as $col) : ?>
-				<th class="<?php echo $thCss . ' ' . $col['css']['col']; ?>">
-					<?php if ($orderby == $col['slug']) : ?>
-						<i class="w-4 inline-block fill-body opacity-50 align-middle"><?php echo inf_get_icon('sort'); ?></i>
-					<?php endif; ?>
-					<?php echo $col['label']; ?>
-				</th>
-			<?php endforeach; ?>
-			<th class="<?php echo $thCss; ?> w-[15%] text-center">Actions</th>
-		</tr>
-	</thead>
-</table>
+<div class="h-[700px] overflow-y-scroll overflow-x-hidden border-b border-b-secondary-100">
+	<table class="w-full relative border-separate border-spacing-0">
+		<thead class="mobile:hidden tablet:table-header-group">
+			<tr class="">
+				<?php foreach ($cols as $col) : ?>
+					<th class="<?php echo $thCss . ' ' . $col['css']['col']; ?>">
+						<?php if ($orderby == $col['slug']) : ?>
+							<i class="w-4 inline-block fill-body opacity-50 align-middle"><?php echo inf_get_icon('sort'); ?></i>
+						<?php endif; ?>
+						<?php echo $col['label']; ?>
+					</th>
+				<?php endforeach; ?>
+				<th class="<?php echo $thCss; ?> w-[15%] text-center">Actions</th>
+			</tr>
+		</thead>
 
-<script>
-	const handleListViewClick = (el) => {
-		const parent = el.parentNode;
-		const checkbox = parent.querySelector('input[type="checkbox"]');
-		checkbox.checked = !checkbox.checked;
+		<script>
+			const handleListViewClick = (el) => {
+				const parent = el.parentNode;
+				const checkbox = parent.querySelector('input[type="checkbox"]');
+				checkbox.checked = !checkbox.checked;
 
-		var cells = parent.querySelectorAll('td');
-		cells.forEach(cell => {
-			cell.classList.toggle('!bg-secondary-400/25');
-		});
+				var cells = parent.querySelectorAll('td');
+				cells.forEach(cell => {
+					cell.classList.toggle('!bg-secondary-400/25');
+				});
 
-		countListViewSelected();
-	}
-</script>
+				countListViewSelected();
+			}
+		</script>
 
-<div class="w-full h-[700px] overflow-y-scroll overflow-x-hidden border-b border-b-secondary-100">
-	<table class="w-full">
 		<tbody class="">
 			<?php if (!empty($rows)) : foreach ($rows as $row) : ?>
 					<tr class="even:bg-surface-800 text-body-400 hover:bg-surface-600">
@@ -92,7 +90,7 @@ $INF->infinite_filters_bar([
 										<button
 											type="button"
 											id=" <?php echo $action['slug'] . '-' . $row['ID']; ?>"
-											class="aap-button btn-alt btn-icon"
+											class="infinite-button btn-alt btn-icon"
 											aria-label="<?php echo $action['label']; ?>"
 											title="<?php echo $action['label']; ?>"
 											onclick="handleListViewAction(this);"
@@ -110,7 +108,7 @@ $INF->infinite_filters_bar([
 										<a
 											id=" <?php echo $action['slug'] . '-' . $row['ID']; ?>"
 											href="<?php echo admin_url($url); ?>"
-											class="aap-button btn-alt btn-icon"
+											class="infinite-button btn-alt btn-icon"
 											aria-label="<?php echo $action['label']; ?>"
 											title="<?php echo $action['label']; ?>">
 
@@ -160,11 +158,11 @@ $INF->infinite_filters_bar([
 		</div>
 
 		<div id="modal-actions" class="flex items-center justify-center gap-10">
-			<button id="modal-action-cancel" type="button" class="aap-button btn-alt">
+			<button id="modal-action-cancel" type="button" class="infinite-button btn-alt">
 				<i class="w-6"><?php echo inf_get_icon('cancel'); ?></i>
 				Cancel
 			</button>
-			<button id="modal-action-confirm" type="button" class="aap-button btn-primary">
+			<button id="modal-action-confirm" type="button" class="infinite-button btn-primary">
 				<i class="w-6"><?php echo inf_get_icon('check'); ?></i>
 				Confirm
 			</button>

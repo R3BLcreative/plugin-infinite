@@ -34,6 +34,15 @@
 					"visible": false,
 					"class": "INF_Students",
 					"method": "get_details_view"
+				},
+				{
+					"slug": "student-add",
+					"menu_title": "Add New",
+					"view_title": "Add a Student",
+					"main_view": false,
+					"visible": true,
+					"class": "INF_Students",
+					"method": "get_add_view"
 				}
 			]
 		},
@@ -62,6 +71,43 @@
 					"visible": false,
 					"class": "INF_Rosters",
 					"method": "get_details_view"
+				}
+			]
+		},
+		{
+			"page_title": "Schedules",
+			"menu_title": "Schedules",
+			"caps": "manage_infinite",
+			"slug": "infinite-schedules",
+			"order": 5,
+			"description": "",
+			"views": [
+				{
+					"slug": "schedule-list",
+					"menu_title": "List",
+					"view_title": "Schedule List",
+					"main_view": true,
+					"visible": true,
+					"class": "INF_Schedules",
+					"method": "get_list_view"
+				},
+				{
+					"slug": "schedule-details",
+					"menu_title": "Details",
+					"view_title": "Schedule Details",
+					"main_view": false,
+					"visible": false,
+					"class": "INF_Schedules",
+					"method": "get_details_view"
+				},
+				{
+					"slug": "schedule-add",
+					"menu_title": "Add New",
+					"view_title": "Add a Schedule",
+					"main_view": false,
+					"visible": true,
+					"class": "INF_Schedules",
+					"method": "get_add_view"
 				}
 			]
 		}

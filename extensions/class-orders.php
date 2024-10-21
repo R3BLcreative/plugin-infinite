@@ -18,27 +18,23 @@ class INF_Orders {
 	/**
 	 * Undocumented variable
 	 *
-	 * @var string
+	 * @var [type]
 	 */
 	public $last_error;
 
 	/**
-	 * The table name for the class table.
+	 * Undocumented variable
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $table_name    The name of the class table.
+	 * @var string
 	 */
-	private $table_name = 'infinite_orders';
+	private $version = '1.0.0';
 
 	/**
-	 * The tables config object.
+	 * Undocumented variable
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      obj    $tables_config    The tables config object.
+	 * @var string
 	 */
-	private $tables_config;
+	private $slug = 'orders';
 
 	/**
 	 * The init function
@@ -48,22 +44,14 @@ class INF_Orders {
 	 * be instantiated at the bottom of this doc.
 	 */
 	public function __construct() {
-		// Load config files here
-		$this->tables_config = $this->get_config($this->table_name);
-	}
-
-	//----------------- UTILITY METHODS -----------------\\
-
-	/**
-	 * Retrieves the tables config file and returns the specific tables config
-	 * 
-	 * @var		string		$table_name		The name of the table to get
-	 */
-	public function get_config($table_name) {
-		if (defined('INF_TABLES') && property_exists(INF_TABLES, 'tables')) {
-			foreach (INF_TABLES->tables as $table) {
-				if ($table->table_name == $table_name) return $table;
-			}
+		// Version control
+		if (!get_option($this->slug)) {
+			add_option($this->slug, $this->version);
+			$this->custom_tables();
+		} else {
+			$version = get_option($this->slug);
+			update_option($this->slug, $this->version);
+			if ($version != $this->version) $this->custom_tables();
 		}
 	}
 
@@ -72,10 +60,37 @@ class INF_Orders {
 	 *
 	 * @return void
 	 */
+	private function custom_tables() {
+		global $wpdb;
+
+		$table = $this->get_wp_table_name();
+		$schema_path = plugin_dir_path(__DIR__) . 'sql/' . $this->slug . '.sql';
+
+		if (file_exists($schema_path)) {
+			$schema = file_get_contents($schema_path);
+			$charset_collate = $wpdb->get_charset_collate();
+
+			$query = str_replace('$TABLE_NAME', $table, $schema);
+			$query = str_replace('$COLLATE', $charset_collate, $query);
+
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			dbDelta($query);
+
+			inf_log('custom_tables: last error', $wpdb->last_error, 'schedules');
+		}
+	}
+
+	//----------------- UTILITY METHODS -----------------\\
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return string
+	 */
 	public function get_wp_table_name() {
 		global $wpdb;
 
-		return $wpdb->prefix . $this->table_name;
+		return $wpdb->prefix . 'inf_' . $this->slug;
 	}
 
 	//----------------- CRUD METHODS -----------------\\
@@ -104,4 +119,16 @@ class INF_Orders {
 		$wpdb->insert($table, $data, $format);
 		return $wpdb->insert_id;
 	}
+
+	//----------------- AJAX METHODS -----------------\\
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function ajax_hooks() {
+	}
 }
+
+$this->loader->add_action('admin_init', new INF_Orders, 'ajax_hooks');

@@ -1,6 +1,6 @@
 CREATE TABLE $TABLE_NAME (
 ID bigint (20) unsigned NOT NULL AUTO_INCREMENT,
-user_id bigint (20) unsigned UNIQUE,
+UID bigint (20) unsigned UNIQUE,
 first_name varchar(255) NOT NULL,
 middle_name varchar(255),
 last_name varchar(255) NOT NULL,

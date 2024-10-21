@@ -20,27 +20,23 @@ class INF_Rosters {
 	/**
 	 * Undocumented variable
 	 *
-	 * @var string
+	 * @var [type]
 	 */
 	public $last_error;
 
 	/**
-	 * The table name for the class table.
+	 * Undocumented variable
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $table_name    The name of the class table.
+	 * @var string
 	 */
-	private $table_name = 'infinite_rosters';
+	private $version = '1.0.0';
 
 	/**
-	 * The tables config object.
+	 * Undocumented variable
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      obj    $tables_config    The tables config object.
+	 * @var string
 	 */
-	private $tables_config;
+	private $slug = 'rosters';
 
 	/**
 	 * The init function
@@ -50,22 +46,14 @@ class INF_Rosters {
 	 * be instantiated at the bottom of this doc.
 	 */
 	public function __construct() {
-		// Load config files here
-		$this->tables_config = $this->get_config($this->table_name);
-	}
-
-	//----------------- UTILITY METHODS -----------------\\
-
-	/**
-	 * Retrieves the tables config file and returns the specific tables config
-	 * 
-	 * @var		string		$table_name		The name of the table to get
-	 */
-	public function get_config($table_name) {
-		if (defined('INF_TABLES') && property_exists(INF_TABLES, 'tables')) {
-			foreach (INF_TABLES->tables as $table) {
-				if ($table->table_name == $table_name) return $table;
-			}
+		// Version control
+		if (!get_option($this->slug)) {
+			add_option($this->slug, $this->version);
+			$this->custom_tables();
+		} else {
+			$version = get_option($this->slug);
+			update_option($this->slug, $this->version);
+			if ($version != $this->version) $this->custom_tables();
 		}
 	}
 
@@ -74,10 +62,37 @@ class INF_Rosters {
 	 *
 	 * @return void
 	 */
+	private function custom_tables() {
+		global $wpdb;
+
+		$table = $this->get_wp_table_name();
+		$schema_path = plugin_dir_path(__DIR__) . 'sql/' . $this->slug . '.sql';
+
+		if (file_exists($schema_path)) {
+			$schema = file_get_contents($schema_path);
+			$charset_collate = $wpdb->get_charset_collate();
+
+			$query = str_replace('$TABLE_NAME', $table, $schema);
+			$query = str_replace('$COLLATE', $charset_collate, $query);
+
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			dbDelta($query);
+
+			inf_log('custom_tables: last error', $wpdb->last_error, 'schedules');
+		}
+	}
+
+	//----------------- UTILITY METHODS -----------------\\
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return string
+	 */
 	public function get_wp_table_name() {
 		global $wpdb;
 
-		return $wpdb->prefix . $this->table_name;
+		return $wpdb->prefix . 'inf_' . $this->slug;
 	}
 
 	/**
@@ -192,19 +207,21 @@ class INF_Rosters {
 	public function get_list_view($INF) {
 		global $wpdb;
 
-		// Get column definitions here
-		$cols = $this->tables_config->view_cols;
-
-		// Get table rows here
+		// Setup vars
 		$rows = [];
-		$table = $wpdb->prefix . $this->table_name;
-		$ptable = $wpdb->prefix . 'posts';
+		$table = $this->get_wp_table_name();
+		$gf_entry_table = $wpdb->prefix . 'gf_entry_meta';
+		$cols = $this->get_list_view_cols();
+		$actions = $this->get_list_view_actions();
+		$showFilter = true;
 
 		// Dynamic query params
 		$s = (isset($_REQUEST['s'])) ? $_REQUEST['s'] : false;
 		$orderby = (isset($_REQUEST['sortby'])) ? $_REQUEST['sortby'] : 'course_id';
 		$direction = (isset($_REQUEST['sortdir'])) ? $_REQUEST['sortdir'] : 'DESC';
-		$limit = (isset($_REQUEST['limit'])) ? $_REQUEST['limit'] : 25;
+		$filterby = (isset($_REQUEST['filterby'])) ? $_REQUEST['filterby'] : false;
+		$filterval = (isset($_REQUEST['filterval'])) ? $_REQUEST['filterval'] : false;
+		$limit = (isset($_REQUEST['limit'])) ? $_REQUEST['limit'] : 50;
 		$offset = (isset($_GET['pg'])) ? $limit * (intval($_GET['pg']) - 1) : 0;
 
 		// Base queries
@@ -212,19 +229,37 @@ class INF_Rosters {
 		$rq = "SELECT *, COUNT(*) as registered_count FROM $table GROUP BY course_id, schedule";
 		$rq2 = " ORDER BY $orderby $direction LIMIT $limit OFFSET $offset";
 
+		// Filter queries
+		if ($filterby && $filterval) {
+			$tq .= " AND $filterby = '$filterval'";
+			$rq .= " AND $filterby = '$filterval'";
+		}
+
 		// Search queries
 		if ($s) {
 			$pS = addslashes($s);
-			$tq .= " WHERE ";
-			$rq .= " WHERE ";
+			$tq .= " AND ";
+			$rq .= " AND ";
 
 			foreach ($cols as $col) {
-				if ($col->search) $sqa[] = $col->slug . " LIKE '%$pS%'";
+				$col_slug = $col['slug'];
+
+				// switch ($col_slug) {
+				// 	case 'tracking_id_link':
+				// 		$col_slug = 'tracking_id';
+				// 		break;
+				// }
+
+				$sqa[] = $col_slug . " LIKE '%$pS%'";
 			}
 
+			// Include additional cols in search
+			// $sqa[] = "license1 LIKE '%$pS%'";
+			// $sqa[] = "license2 LIKE '%$pS%'";
+
 			$sq = implode(' OR ', $sqa);
-			$tq .= $sq;
-			$rq .= $sq;
+			$tq .= '(' . $sq . ')';
+			$rq .= '(' . $sq . ')';
 		}
 
 		// Queries
@@ -237,24 +272,41 @@ class INF_Rosters {
 		// Get actual records
 		$results = $wpdb->get_results($rq, ARRAY_A);
 
-		// Insert Course Title into results array
-		array_walk($results, function (&$value, $key) {
-			$value['course_title'] = get_the_title($value['course_id']);
-		});
+		inf_log('get_list_view: query', $rq, 'rosters');
+		inf_log('get_list_view: results', $results, 'rosters');
 
-		// Get primary action
-		$primary_action = false;
-		foreach ($this->tables_config->actions as $action) {
-			if ($action->primary) $primary_action = $action->slug;
+		// Get filterby values
+		if ($filterby) {
+			$filterVals = $wpdb->get_results("SELECT DISTINCT $filterby FROM $table ORDER BY $filterby ASC", ARRAY_A);
+			$filterVals = array_column($filterVals, $filterby);
+
+			if (in_array('Archived', $filterVals)) {
+				$i = array_search('Archived', $filterVals);
+				unset($filterVals[$i]);
+				$filterVals = array_values($filterVals);
+			}
 		}
 
 		// Set additional template vars
-		$actions = $this->tables_config->actions;
-		$rows = $results;
+		$rows = $this->format_results($results);
 		$screen = $INF->get_current_screen();
 		$view = $INF->get_current_view();
+		$bulk_bar_data = [
+			'total' => $total,
+			'showBulkActions' => true,
+			'actions' => [
+				'batch_action' => [
+					'display' => 'Action',
+					'target' => '_blank'
+				],
+				'batch_actions' => [
+					'display' => 'Actions',
+					'target' => '_self'
+				],
+			],
+		];
 
-		require_once WP_PLUGIN_DIR . '/infinite-plugin/admin/partials/comp_table.php';
+		require_once plugin_dir_path(__DIR__) . 'admin/partials/comp_table.php';
 	}
 
 	/**
@@ -361,6 +413,46 @@ class INF_Rosters {
 				$_SESSION['cart']['items'][$key]['isRegistered'] = false;
 			}
 		}
+	}
+
+	//----------------- FORMATTING METHODS -----------------\\
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param  array $rows
+	 * @return array $rows
+	 */
+	public function format_results($rows) {
+		foreach ($rows as $i => $row) {
+			$rows[$i] = $this->format_row($row);
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @param  [type] $row
+	 * @return void
+	 */
+	public function format_row($row) {
+		// Format DB columns
+		foreach ($row as $key => $value) {
+			switch ($key) {
+				case 'col_name':
+					// Format
+					break;
+				default:
+					break;
+			}
+		}
+
+		// Additional Formatters
+		$row['course_title'] = get_the_title($row['course_id']);
+
+		return $row;
 	}
 
 	//----------------- AJAX METHODS -----------------\\

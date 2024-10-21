@@ -19,18 +19,18 @@ if (!defined('WPINC')) {
 }
 
 // WP one-click updates hosted on GitHub
-require 'plugin-update-checker/plugin-update-checker.php';
+// require 'plugin-update-checker/plugin-update-checker.php';
 
-use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+// use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
-$myUpdateChecker = PucFactory::buildUpdateChecker(
-	'https://github.com/R3BLcreative/plugin-infinite/',
-	__FILE__,
-	'plugin-infinite'
-);
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
-// $myUpdateChecker->setBranch('production');
-$myUpdateChecker->setAuthentication('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');
+// $myUpdateChecker = PucFactory::buildUpdateChecker(
+// 	'https://github.com/R3BLcreative/plugin-infinite/',
+// 	__FILE__,
+// 	'plugin-infinite'
+// );
+// $myUpdateChecker->getVcsApi()->enableReleaseAssets();
+// // $myUpdateChecker->setBranch('production');
+// $myUpdateChecker->setAuthentication('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');
 
 /**
  * Current plugin version.
@@ -58,12 +58,6 @@ if (file_exists($config_path . 'admin.json')) {
 if (file_exists($config_path . 'public.json')) {
 	$public_config = json_decode(file_get_contents($config_path . 'public.json'));
 	define('INF_PUBLIC', $public_config);
-}
-
-// TABLES CONFIG
-if (file_exists($config_path . 'tables.json')) {
-	$tables_config = json_decode(file_get_contents($config_path . 'tables.json'));
-	define('INF_TABLES', $tables_config);
 }
 
 // ROLES CONFIG

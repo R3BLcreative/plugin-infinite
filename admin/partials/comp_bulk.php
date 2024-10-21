@@ -25,7 +25,7 @@
 					</select>
 				</div>
 
-				<button type="submit" onclick="location.reload();" class="aap-button btn-secondary btn-md">
+				<button type="submit" onclick="location.reload();" class="infinite-button btn-secondary btn-md">
 					<i><?php echo inf_get_icon('layers'); ?></i>
 					<span class="mobile:hidden tablet:inline-block">Apply</span>
 				</button>

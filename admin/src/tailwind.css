@@ -21,6 +21,14 @@
 		@apply text-body !font-body text-base py-5 px-3;
 	}
 
+	& .h2 {
+		@apply text-primary text-2xl font-black tracking-wider;
+	}
+
+	& .infinite-card {
+		@apply flex flex-col gap-6 rounded-md overflow-hidden border border-secondary p-6;
+	}
+
 	& .infinite-button {
 		@apply py-3 px-4 flex flex-row items-center justify-center gap-2 w-fit rounded-md transition-all ease-in-out;
 
@@ -45,7 +53,7 @@
 		}
 
 		&.btn-alt {
-			@apply border bg-surface-600 text-body-50 fill-body-50 border-surface-500 shadow-sm hover:bg-primary hover:text-primary-50 hover:fill-primary-50 hover:border-primary-400 hover:shadow-lg active:bg-surface-400 active:text-body-100 active:fill-body-100 active:border-surface-200 active:shadow-none;
+			@apply border bg-surface-600 text-body-50 fill-body-50 border-surface-500 shadow-sm hover:bg-primary/30 hover:text-primary-50 hover:fill-primary-50 hover:border-primary hover:shadow-lg active:bg-surface-400 active:text-body-100 active:fill-body-100 active:border-surface-200 active:shadow-none;
 		}
 
 		& i {
@@ -54,7 +62,9 @@
 	}
 
 	& select,
-	& input[type='text'] {
+	& textarea,
+	& input[type='text'],
+	& input[type='date'] {
 		@apply py-3 px-4 min-w-[135px] rounded-md border border-surface-500 bg-surface-800 text-body-50 font-body font-normal shadow-lg hover:text-body-50 focus:text-body-50 placeholder:italic;
 	}
 

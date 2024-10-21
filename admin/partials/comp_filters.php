@@ -73,7 +73,7 @@
 			</select>
 		</div>
 
-		<button type="submit" class="aap-button btn-primary btn-md">
+		<button type="submit" class="infinite-button btn-primary btn-md">
 			<i><?php echo inf_get_icon('sort'); ?></i>
 			<span class="mobile:hidden tablet:inline-block">Sort</span>
 		</button>
@@ -129,7 +129,7 @@
 				</select>
 			</div>
 
-			<button type="submit" class="aap-button btn-primary btn-md">
+			<button type="submit" class="infinite-button btn-primary btn-md">
 				<i><?php echo inf_get_icon('filter'); ?></i>
 				<span class="mobile:hidden tablet:inline-block">Filter</span>
 			</button>

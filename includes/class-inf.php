@@ -25,6 +25,8 @@ class INF {
 	 */
 	protected $loader;
 
+	protected $extensions;
+
 	/**
 	 * The updater responsible for handling one-click and automatic updates.
 	 *
@@ -87,14 +89,7 @@ class INF {
 		}
 
 		if (defined('INF_ROLES')) {
-			$v = get_option('INF_ROLES');
 			$this->run_config_update('INF_ROLES');
-			// if ($v != INF_ROLES->version) $this->run_config_update('INF_ROLES');
-		}
-
-		if (defined('INF_TABLES')) {
-			$v = get_option('INF_TABLES');
-			if ($v != INF_TABLES->version) $this->run_config_update('INF_TABLES');
 		}
 	}
 
@@ -116,10 +111,6 @@ class INF {
 				break;
 			case 'INF_ROLES':
 				$activator->custom_roles();
-				break;
-			case 'INF_TABLES':
-				// This handles the creation of new tables and updating table structures to the config
-				$activator->custom_tables();
 				break;
 		}
 
@@ -155,6 +146,7 @@ class INF {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path(__DIR__) . 'includes/class-inf-loader.php';
+		$this->loader = new INF_Loader();
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -172,8 +164,6 @@ class INF {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path(__DIR__) . 'public/class-inf-public.php';
-
-		$this->loader = new INF_Loader();
 
 		/**
 		 * This code reads the extensions directory and loads the files 

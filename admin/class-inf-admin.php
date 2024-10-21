@@ -64,11 +64,11 @@ class INF_Admin {
 	 * @since    1.0.0
 	 */
 	public function admin_body_class($classes) {
-		if (defined('AAP_ADMIN')) {
+		if (defined('INF_ADMIN')) {
 			$current = (array_key_exists('page', $_GET)) ? $_GET['page'] : false;
 
 			if ($this->get_screen($current)) {
-				$classes .= ' infinite-css';
+				$classes .= ' inf-css';
 			}
 		}
 

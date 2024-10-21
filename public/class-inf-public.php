@@ -85,12 +85,95 @@ class INF_Public {
 		if (defined('INF_PUBLIC')) {
 			$current = (array_key_exists('page', $_GET)) ? $_GET['page'] : false;
 
-			// if ($this->get_screen($current)) {
-			// 	$classes .= ' aap-css';
-			// }
+			if ($this->get_screen($current)) {
+				$classes .= ' inf-css';
+			}
 		}
 
 		return $classes;
+	}
+
+	/**
+	 * Returns all screen configs
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_screens() {
+		$screens = [];
+
+		if (defined('INF_PUBLIC')) {
+			$screens = INF_PUBLIC->screens;
+
+			// Add menu config to screens to handle the dashboard screen
+			$screens[] = INF_PUBLIC->menu;
+		}
+
+		if (!empty($screens)) return $screens;
+
+		return false;
+	}
+
+	/**
+	 * Returns a single screen config
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_screen($slug) {
+		if (defined('INF_PUBLIC') && $slug) {
+			$screens = $this->get_screens();
+
+			foreach ($screens as $screen) {
+				if ($screen->slug == $slug) return $screen;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the current screen's config
+	 *
+	 * @since    1.0.0
+	 */
+	public function get_current_screen() {
+		$current = $_GET['page'];
+		return $this->get_screen($current);
+	}
+
+	/**
+	 * Returns all view configs for the current screen
+	 *
+	 * @since    1.0.0
+	 */
+	private function get_views() {
+		$screen = $this->get_current_screen();
+
+		// Handle standard screen views
+		if ($screen && property_exists($screen, 'views')) {
+			return $screen->views;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the current view's config
+	 *
+	 * @since    1.0.0
+	 */
+	public function get_current_view() {
+		$current_view = (isset($_GET['view'])) ? $_GET['view'] : false;
+		$views = $this->get_views();
+
+		// [ ] Need to run permissions checks on each view and prevent display if not permitted
+
+		if ($views) {
+			foreach ($views as $view) {
+				if ((!$current_view && $view->main_view) || $view->slug == $current_view) return $view;
+			}
+		}
+
+		return false;
 	}
 
 	/**

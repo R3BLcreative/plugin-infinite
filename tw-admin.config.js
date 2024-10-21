@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./admin/**/*.{php,js}', './**/*.svg'],
+	content: ['./**/*.svg', './admin/**/*.{php,js}', './extensions/*.php', './config/*.json'],
 	theme: {
 		screens: {
 			mobile: '0px',
